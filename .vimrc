@@ -69,6 +69,9 @@ autocmd BufWinEnter *.* silent loadview "load folds
 
 "" Perl stuff
 
+" syntax color complex things like @{${"foo"}}
+let perl_extended_vars = 1
+
 " Tidy selected lines (or entire file) with _t:
 nnoremap <silent> _t :%!perltidy -q<Enter>
 vnoremap <silent> _t :!perltidy -q<Enter>
