@@ -4,8 +4,8 @@ if [ -r "$HOME/.profile" ]; then
 fi
 
 # bash function to backup files
-# Usage: backup <file-to-backup>
-function backup () {
+# Usage: bkup <file-to-backup>
+function bkup () {
     newname=$1.`date +%Y%m%d.%H%M.bak`;
     mv $1 $newname;
     echo "Backed up $1 to $newname.";
