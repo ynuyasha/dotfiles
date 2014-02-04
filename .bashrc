@@ -1,5 +1,8 @@
-# Run on every instance, place for aliases and functions
-# I moved here stuff from ~/.bash_profile
+# Non-login, i.e. run on every instance. Place for aliases and functions.
+
+# Creating a symlink between ~/.bashrc and ~/.bash_profile will ensure that the
+# same startup scripts run for both login and non-login sessions. Debian's
+# ~/.profile sources ~/.bashrc, which has the same effect.
 
 eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
 
