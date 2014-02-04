@@ -1,8 +1,11 @@
-# ~/.profile: executed by the command interpreter for login shells.
+# Executed by the command interpreter for login shells, i.e. shells started
+# by the login program or a remote login server such as SSH.
+
+# Place for environment variables (no need to export them in Debian).
+
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# exists. See /usr/share/doc/bash/examples/startup-files for examples. The
+# files are located in the bash-doc package.
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
