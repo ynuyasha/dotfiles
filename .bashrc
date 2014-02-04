@@ -1,3 +1,5 @@
+# Run on every instance, place for aliases and functions
+
 eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
 
 export HISTSIZE=5000
