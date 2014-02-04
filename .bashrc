@@ -1,4 +1,5 @@
 # Run on every instance, place for aliases and functions
+# I moved here stuff from ~/.bash_profile
 
 eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
 
