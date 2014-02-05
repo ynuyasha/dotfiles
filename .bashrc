@@ -4,7 +4,9 @@
 # same startup scripts run for both login and non-login sessions. Debian's
 # ~/.profile sources ~/.bashrc, which has a similar effect.
 
-eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+if [ -d "$HOME/perl5/lib/perl5" ]; then
+    eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+fi
 
 export HISTSIZE=5000
 export HISTFILESIZE=5000
