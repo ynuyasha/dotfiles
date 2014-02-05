@@ -37,17 +37,6 @@ sub install_vim_nerd_tree {
     system "git clone $nerdtree_tabs_repo";
 }
 
-sub install_vim_templates {
-    my $templates_dir = "$ENV{HOME}/.vim/templates";
-    make_path $templates_dir unless -e $templates_dir;
-
-    # Perl template
-    open my $fh, ">", "$templates_dir/pl.template" or die;
-    print $fh "#!/usr/bin/perl\nuse strict;\nuse warnings;\n";
-    close $fh;
-    print "'$templates_dir/pl.template' installed\n";
-}
-
 sub install_vim_markdown {
     my $bundle_dir = "$ENV{HOME}/.vim/bundle";
     mkdir $bundle_dir unless -d $bundle_dir;
@@ -65,9 +54,5 @@ sub install_vim_markdown {
 print "\n--> Install vim nerd tree\n";
 install_vim_nerd_tree;
 
-print "\n--> Install vim templates\n";
-install_vim_templates;
-
 print "\n--> Install vim-markdown\n";
 install_vim_markdown;
-
