@@ -1,58 +1,67 @@
 #!/usr/bin/env perl
-# Install useful vim stuff.
+# Install useful vim plugins.
 # Usage: run this script.
 use strict;
 use warnings;
 use File::Path qw(make_path remove_tree);
 use IPC::Cmd qw(can_run);
 
-sub install_vim_nerd_tree {
-
-    # Install pathogen.vim
-    my $autoload_dir = "$ENV{HOME}/.vim/autoload";
-    make_path $autoload_dir unless -e $autoload_dir;
-    my $pathogen_url =
-      'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim';
+sub _get_web {
+    my ( $remote, $local ) = @_;
 
     # If curl is not there use wget
-    if (can_run('curl')) {
-        system "curl -so $ENV{HOME}/.vim/autoload/pathogen.vim $pathogen_url";
+    print "Donwloading $remote to '$local'\n";
+    if ( can_run('curl') ) {
+        system "curl -so $local $remote";
     } else {
-        system "wget -q -O $ENV{HOME}/.vim/autoload/pathogen.vim $pathogen_url";
+        system "wget -q -O $local $remote";
     }
-
-    my $bundle_dir = "$ENV{HOME}/.vim/bundle";
-
-    # Install NERDtree
-    mkdir $bundle_dir unless -e $bundle_dir;
-    chdir $bundle_dir and print "Changed to '$bundle_dir'\n";
-    remove_tree "nerdtree";
-    my $nerdtree_repo = 'https://github.com/scrooloose/nerdtree.git';
-    system "git clone $nerdtree_repo";
-
-    # Install NERDtree tabs
-    chdir $bundle_dir and print "Changed to '$bundle_dir'\n";
-    remove_tree "vim-nerdtree-tabs";
-    my $nerdtree_tabs_repo = 'https://github.com/jistr/vim-nerdtree-tabs.git';
-    system "git clone $nerdtree_tabs_repo";
 }
 
-sub install_vim_markdown {
-    my $bundle_dir = "$ENV{HOME}/.vim/bundle";
-    mkdir $bundle_dir unless -d $bundle_dir;
-    chdir $bundle_dir and print "Changed to '$bundle_dir'\n";
-    if ( -d "vim-markdown" ) {
-        chdir "vim-markdown" and print "Changed to 'vim-markdown'\n";
+sub _get_git {
+    my ( $remote_repo, $local_repo ) = @_;
+
+    if ( -d $local_repo ) {
+        chdir $local_repo and print "Changed to '$local_repo'\n";
         system "git pull";
     } else {
-        system "git clone https://github.com/plasticboy/vim-markdown.git";
+        system "git clone $remote_repo $local_repo";
     }
 }
 
 # MAIN
 
-print "\n--> Install vim nerd tree\n";
-install_vim_nerd_tree;
+# Create necessary directories
+my $autoload_dir = "$ENV{HOME}/.vim/autoload";
+make_path $autoload_dir unless -e $autoload_dir;
+my $bundle_dir = "$ENV{HOME}/.vim/bundle";
+make_path $bundle_dir unless -d $bundle_dir;
 
-print "\n--> Install vim-markdown\n";
-install_vim_markdown;
+my $plugins = [
+    {
+        name => 'pathogen.vim',
+        remote =>
+'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim',
+        local => "$autoload_dir/pathogen.vim",
+    },
+    {
+        name   => 'vim nerd tree',
+        remote => 'https://github.com/scrooloose/nerdtree.git',
+        local  => "$bundle_dir/nerdtree",
+    },
+    {
+        name   => 'vim nerd tree tabs',
+        remote => 'https://github.com/plasticboy/vim-markdown.git',
+        local  => "$bundle_dir/vim-markdown",
+    },
+];
+
+for my $plugin (@$plugins) {
+    print "\n--> Install $plugin->{name}\n";
+    if ( $plugin->{remote} =~ /\.git$/ ) {
+        _get_git( $plugin->{remote}, $plugin->{local} );
+    } else {
+        _get_web( $plugin->{remote}, $plugin->{local} );
+    }
+}
+
