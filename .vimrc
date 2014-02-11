@@ -1,7 +1,8 @@
 " activate pathogen.vim
 call pathogen#infect()
-" open a NERDTree automatically when vim starts up if no files were specified
-nnoremap <F4> :NERDTreeTabsToggle<CR>
+
+" open a NERDTree
+nnoremap <F4> :NERDTreeToggle<CR>
 
 " make templates work
 autocmd BufNewFile * silent! 0r ~/.vim/templates/%:e.template
