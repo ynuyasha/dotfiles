@@ -1,0 +1,7 @@
+# See https://metacpan.org/pod/GitMeta::GMF
+
+# All github projects of user 'jreisinger'
+-
+    type: Github
+    user: jreisinger
+
