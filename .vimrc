@@ -84,3 +84,6 @@ nnoremap <leader>l :PerlLint<CR>
 set makeprg=perl\ -c\ -MVi::QuickFix\ %
 set errorformat+=%m\ at\ %f\ line\ %l\.
 set errorformat+=%m\ at\ %f\ line\ %l
+
+" Enable spell checking
+set spell
