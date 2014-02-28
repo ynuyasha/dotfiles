@@ -86,4 +86,4 @@ set errorformat+=%m\ at\ %f\ line\ %l\.
 set errorformat+=%m\ at\ %f\ line\ %l
 
 " Enable spell checking
-set spell
+"set spell
