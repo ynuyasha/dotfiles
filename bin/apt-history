@@ -1,10 +1,49 @@
 #!/usr/bin/perl
-# Output recently installed (or otherwise manipulated) Debian packages in
-# format usable by 'apt-get remove'.
-# Usage: apt-history
-#        zcat /var/log/apt/history.log.1.gz | apt-history -
+
+=head1 NAME
+
+apt-history - Output recently installed (or otherwise manipulated) Debian
+packages in format usable by 'apt-get remove'.
+
+=cut
+
+=head1 SYNOPSIS
+
+apt-history [--help|--man]
+
+zcat /var/log/apt/history.log.1.gz | apt-history -
+
+Options:
+
+    --help      Show the help information.
+    --man       Show the full documentation.
+
+=cut
+
+=head1 DESCRIPTION
+
+Sometimes you want to see or remove the packages you previously installed.
+
+=cut
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under the same
+terms as Perl itself.
+
+=cut
+
 use strict;
 use warnings;
+use Getopt::Long qw(GetOptions);
+use Pod::Usage qw(pod2usage);
+
+my %opts;
+GetOptions( "help|h|?" => \$opts{help}, "man" => \$opts{man} )
+  or pod2usage(2);
+
+pod2usage(1) if $opts{help};
+pod2usage( -verbose => 2 ) if $opts{man};
 
 # Default log file
 push @ARGV, '/var/log/apt/history.log' unless @ARGV;
