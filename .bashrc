@@ -5,7 +5,7 @@
 # ~/.profile sources ~/.bashrc, which has a similar effect.
 
 if [ -d "$HOME/perl5/lib/perl5" ]; then
-    eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+    [ $SHLVL -eq 1 ] && eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)"
 fi
 
 export HISTSIZE=5000
