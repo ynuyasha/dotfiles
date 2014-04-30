@@ -18,9 +18,10 @@ alias ls="ls --color"
 
 # Usage: bkup <file-to-backup>
 function bkup () {
+    # alpha sortable
     newname=$1.`date +%Y%m%d.%H%M%S.bak`;
+    # handle open references to original file
     mv $1 $newname;
-    echo "Backed up '$1' to '$newname' (removed write bits).";
+    echo "Backed up '$1' to '$newname'.";
     cp -p $newname $1;
-    chmod a-w $newname
 }
