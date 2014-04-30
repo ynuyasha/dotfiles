@@ -4,6 +4,9 @@ call pathogen#infect()
 " open a NERDTree
 nnoremap <F4> :NERDTreeToggle<CR>
 
+" open BufExplorer
+nnoremap <F5> :BufExplorer<CR>
+
 " make templates work
 autocmd BufNewFile * silent! 0r ~/.vim/templates/%:e.template
 
@@ -47,7 +50,7 @@ set laststatus=2
 
 set textwidth=79
 set nu          " show line numbers
-colors koehler  " colorscheme
+colors delek    " colorscheme
 set showmatch   " show matching brackets
 
 " don't bell or blink
