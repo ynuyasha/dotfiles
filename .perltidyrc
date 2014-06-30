@@ -1,3 +1,4 @@
-# http://perltidy.sourceforge.net/tutorial.html
--ce
-#-bl
+# https://metacpan.org/pod/distribution/Perl-Tidy/bin/perltidy
+--cuddled-else
+--nooutdent-long-lines
+--check-syntax
