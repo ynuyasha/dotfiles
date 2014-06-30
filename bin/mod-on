@@ -1,0 +1,106 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use utf8;
+
+use File::Find;
+use Time::Local;
+use Getopt::Long;
+use Pod::Usage;
+
+# Command line options
+my $help = 0;
+my @dirs = (".");
+GetOptions(
+    "help|?" => \$help,
+    "dir=s"  => \@dirs,
+) or pod2usage(2);
+
+# comma-separated lists of values as well as multiple occurrences of the option
+@dirs = split( /,/, join( ',', @dirs ) );
+
+# Help
+pod2usage(1) if $help;
+
+# Command line arguments
+pod2usage( -exitval => 1, -verbose => 1 ) unless @ARGV == 1;
+my $target_dow = shift;
+
+my %dow = (
+    Monday    => 1,
+    Tuesday   => 2,
+    Wednesday => 3,
+    Thursday  => 4,
+    Friday    => 5,
+    Saturday  => 6,
+    Sunday    => 7,
+);
+
+if ( exists $dow{$target_dow} ) {
+    $target_dow = $dow{$target_dow};
+} elsif ( not $target_dow =~ /[01234567]/ ) {
+    pod2usage( -exitval => 1, -verbose => 1 );
+}
+
+my $seconds_per_day = 24 * 60 * 60;
+my ( $sec, $min, $hour, $day, $mon, $yr, $dow ) = localtime;
+my $start = timelocal( 0, 0, 0, $day, $mon, $yr );    # midnight today
+
+while ( $dow != $target_dow ) {
+
+    # Back up one day
+    $start -= $seconds_per_day;                       # hope no DST! :-)
+    if ( --$dow < 0 ) {
+        $dow += 7;
+    }
+}
+my $stop = $start + $seconds_per_day;
+
+my ( $gather, $yield ) = gather_mtime_between( $start, $stop );
+find( $gather, @dirs );
+my @files = $yield->();
+
+# Print the results
+for my $file (@files) {
+    my $mtime = ( stat $file )[9];    # mtime via slice
+    my $when  = localtime $mtime;
+    print "$when: $file\n";
+}
+
+# Return two coderef (closures) for find()
+sub gather_mtime_between {
+    my ( $start, $stop ) = @_;
+
+    my @files;
+
+    sub {
+        my $mtime = ( stat $_ )[9];
+        unless ( defined $mtime ) {
+            warn "Can't stat $File::Find::name: $!, skipping\n";
+            return;
+        }
+        push @files, $File::Find::name
+          if $mtime >= $start and $mtime <= $stop;
+      }, sub {
+        @files;
+      }
+}
+
+__END__
+
+=head1 NAME
+
+    mod-on - find files modified on certain day of week
+
+=head1 SYNOPSIS
+
+    mod-on [options] Day-of-week
+
+     Options:
+       --dir DIR[,DIR2,...] starting directory to search recursively (default is .)
+       --help               help message
+
+    Day-of-week maybe a day name (Monday, Tuesday, ...) or a number from 0 to 7
+    where both 0 and 7 means Sunday.
+
+=cut
