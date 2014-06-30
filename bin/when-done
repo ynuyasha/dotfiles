@@ -1,0 +1,28 @@
+#!/bin/bash
+# Send an email when process is not running any more
+
+function usage {
+    echo "Usage: $0 process-name email-address"
+    exit 1
+}
+
+if [ $# -ne 2 ]; then
+    usage
+fi
+
+process=$1
+email=$2
+
+sleep=/bin/sleep
+ps=/bin/ps
+grep=/bin/grep
+mail=/usr/bin/mail
+
+true
+
+while [ $? -eq 0 ]; do 
+	$sleep 3
+	$ps aux | $grep -v grep | $grep -v $$ | $grep -q $process
+done
+
+echo "$process not running as of $(date)" | $mail -s "$process done" $email
