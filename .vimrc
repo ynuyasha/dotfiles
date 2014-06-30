@@ -27,8 +27,8 @@ set shiftwidth=4
 set expandtab " spaces instead of tab (looks same in all editors)
 
 " highlight tabs and trailing spaces
-set list!
-set listchars=tab:>-,trail:-
+"set list!
+"set listchars=tab:>-,trail:-
 
 " statusline
 set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
