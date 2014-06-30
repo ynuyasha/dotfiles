@@ -11,16 +11,19 @@ use Pod::Usage;
 # Command line options
 my $help = 0;
 my @dirs = (".");
+my $man  = 0;
 GetOptions(
     "help|?" => \$help,
+    "man"    => \$man,
     "dir=s"  => \@dirs,
 ) or pod2usage(2);
 
 # comma-separated lists of values as well as multiple occurrences of the option
 @dirs = split( /,/, join( ',', @dirs ) );
 
-# Help
+# Help and manual page
 pod2usage(1) if $help;
+pod2usage( -exitval => 0, -verbose => 2 ) if $man;
 
 # Command line arguments
 pod2usage( -exitval => 1, -verbose => 1 ) unless @ARGV == 1;
@@ -98,7 +101,8 @@ __END__
 
      Options:
        --dir DIR[,DIR2,...] starting directory to search recursively (default is .)
-       --help               help message
+       --help               brief help message
+       --man                full documentation
 
     Day-of-week maybe a day name (Monday, Tuesday, ...) or a number from 0 to 7
     where both 0 and 7 means Sunday.
