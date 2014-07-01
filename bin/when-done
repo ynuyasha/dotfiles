@@ -21,7 +21,7 @@ mail=/usr/bin/mail
 true
 
 while [ $? -eq 0 ]; do 
-	$sleep 3
+	$sleep 60
 	$ps aux | $grep -v grep | $grep -v $$ | $grep -q $process
 done
 
