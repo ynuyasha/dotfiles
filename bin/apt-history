@@ -11,8 +11,6 @@ packages in format usable by 'apt-get remove'.
 
 apt-history [--help|--man]
 
-zcat /var/log/apt/history.log.1.gz | apt-history -
-
 Options:
 
     --help      Show the help information.
@@ -45,8 +43,13 @@ GetOptions( "help|h|?" => \$opts{help}, "man" => \$opts{man} )
 pod2usage(1) if $opts{help};
 pod2usage( -verbose => 2 ) if $opts{man};
 
-# Default log file
-push @ARGV, '/var/log/apt/history.log' unless @ARGV;
+#
+# apt
+#
+
+print "=== apt ===\n";
+
+@ARGV = qw(/var/log/apt/history.log);
 
 my ( $in_block, $date );
 while (<>) {
@@ -64,7 +67,7 @@ while (<>) {
             my $operation = $1;
             my @pkgs = split /,/, $2;
             print "---> $operation on $date\n";
-            for (@pkgs) {
+            for ( sort @pkgs ) {
                 print "$1 " if /\s*([^:]+):/;
             }
             print "\n";
@@ -72,3 +75,30 @@ while (<>) {
     }
 }
 
+#
+# dpkg
+#
+
+print "=== dpkg ===\n";
+
+@ARGV = qw(/var/log/dpkg.log);
+
+my %pkgs;
+my @actions = qw(install);
+while (<>) {
+    my ( $date, $time, $action, $pkg ) = (split)[ 0 .. 4 ];
+    next unless grep $action eq $_, @actions;
+    push @{ $pkgs{$action}{$date}{packages} }, $pkg;
+    push @{ $pkgs{$action}{$date}{times} },    $time;
+}
+
+for my $action ( keys %pkgs ) {
+    for my $date ( sort keys %{ $pkgs{$action} } ) {
+        my ( $start, $end ) = @{ $pkgs{$action}{$date}{times} }[ 0, -1 ];
+        print "---> Going to $action on $date ($start - $end)\n";
+        for my $pkg ( sort @{ $pkgs{$action}{$date}{packages} } ) {
+            print "$1 " if $pkg =~ /\s*([^:]+):/;
+        }
+        print "\n";
+    }
+}
