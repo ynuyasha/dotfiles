@@ -95,7 +95,7 @@ while (<>) {
 for my $action ( keys %pkgs ) {
     for my $date ( sort keys %{ $pkgs{$action} } ) {
         my ( $start, $end ) = @{ $pkgs{$action}{$date}{times} }[ 0, -1 ];
-        print "---> Going to $action on $date ($start - $end)\n";
+        print "---> $action on $date ($start - $end)\n";
         for my $pkg ( sort @{ $pkgs{$action}{$date}{packages} } ) {
             print "$1 " if $pkg =~ /\s*([^:]+):/;
         }
