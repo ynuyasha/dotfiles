@@ -1,3 +1,57 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
+use 5.010;
+use autodie;
+use Getopt::Long;
+use Pod::Usage;
+
+#################
+# Configuration #
+#################
+
+########
+# Main #
+########
+
+# Command line options
+my $help = 0;
+my $man  = 0;
+GetOptions(
+    "help|?" => \$help,
+    man      => \$man,
+) or pod2usage(2);
+
+# Help
+pod2usage(1) if $help;
+pod2usage( -exitval => 0, -verbose => 2 ) if $man;
+
+#############
+# Functions #
+#############
+
+__END__
+
+=head1 NAME
+
+    <program> - <One-line description of programs's purpose>
+
+=head1 SYNOPSIS
+
+    <program> [options]
+
+      Options:
+        -h, --help                       brief help message
+        -m, --man                        full documentation
+
+=head1 DECRIBTION
+
+A full description of the <program> and its features.
+
+May include numerous subsections (i.e., =head2, =head3, etc.).
+
+=head1 EXAMPLES
+
+    PROGNAME -h
+
+=cut
