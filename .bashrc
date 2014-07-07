@@ -25,3 +25,8 @@ function bkup () {
     echo "Backed up '$1' to '$newname'.";
     cp -p $newname $1;
 }
+
+# Open up the todo list
+function todo () {
+    vi ~/todo
+}
