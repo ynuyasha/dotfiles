@@ -30,3 +30,16 @@ function bkup () {
 function todo () {
     vi ~/todo
 }
+
+# Mount remote directory over SSH
+function mysshfs () {
+    host=$1
+    dir=$2
+
+    if [ $# -ne 2 ]; then
+        echo "Usage: mysshfs HOST DIR"
+        return 1
+    fi
+
+    sshfs -o allow_other root@$host:$dir ~/sshfs/ -o IdentityFile=~/.ssh/id_rsa
+}
