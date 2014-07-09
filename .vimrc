@@ -76,9 +76,34 @@ autocmd BufWinEnter *.* silent loadview "load folds
 " syntax color complex things like @{${"foo"}}
 let perl_extended_vars = 1
 
+"
+" START Tidy Perl file
+"
+
 " Tidy selected lines (or entire file) with _t:
-nnoremap <silent> _t :%!perltidy -q<Enter>
-vnoremap <silent> _t :!perltidy -q<Enter>
+"nnoremap <silent> _t :%!perltidy -q<Enter>
+"vnoremap <silent> _t :!perltidy -q<Enter>
+
+"define :Tidy command to run perltidy on visual selection || entire buffer"
+command -range=% -nargs=* Tidy <line1>,<line2>!perltidy
+
+"run :Tidy on entire buffer and return cursor to (approximate) original position"
+fun DoTidy()
+    let l = line(".")
+    let c = col(".")
+    :Tidy
+    call cursor(l, c)
+endfun
+
+"shortcut for normal mode to run on entire buffer then return to current line"
+au Filetype perl nmap _t :call DoTidy()<CR>
+
+"shortcut for visual mode to run on the the current visual selection"
+au Filetype perl vmap _t :Tidy<CR>
+
+"
+" STOP Tidy Perl file
+"
 
 " Check syntax: \l
 command PerlLint !perl -c %
