@@ -24,7 +24,7 @@ GetOptions(
 
 # Help
 pod2usage(1) if $help;
-pod2usage( -exitval => 0, -verbose => 2 ) if $man;
+pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $man;
 
 #############
 # Functions #
