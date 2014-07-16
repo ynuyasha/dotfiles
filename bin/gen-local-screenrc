@@ -4,17 +4,21 @@ use strict;
 use warnings;
 use autodie;
 
-my $servers  = "$ENV{HOME}/.servers.txt";
-my $screenrc = "$ENV{HOME}/.screenrc_local";
+my $servers        = "$ENV{HOME}/.servers.txt";
+my $screenrc       = "$ENV{HOME}/.screenrc";
+my $screenrc_local = "$ENV{HOME}/.screenrc_local";
 
 if ( -f $servers ) {
-    open my $servers_fh,  "<", $servers;
-    open my $screenrc_fh, ">", $screenrc;
+    open my $servers_fh,        "<", $servers;
+    open my $screenrc_fh,       "<", $screenrc;
+    open my $screenrc_local_fh, ">", $screenrc_local;
     my $screen = 0;
     while (<$servers_fh>) {
         chomp;
-        $screen++;
-        print $screenrc_fh
+        print $screenrc_local_fh
           "screen -t $_     $screen               ssh root\@$_\n";
+        $screen++;
     }
+
+    print $screenrc_local_fh "\nsource ~/.screenrc\n";
 }

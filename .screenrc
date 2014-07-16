@@ -14,5 +14,3 @@ startup_message off
 # ------------------------------------------------------------------------------
 #         Screen_name   Screen #        Startup command
 #screen -t localhost     0               top
-
-source ~/.screenrc_local
