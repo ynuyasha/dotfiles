@@ -1,0 +1,38 @@
+#!/usr/bin/perl
+# Generate ~/.screenrc_servers that will connect you to all the servers in ~/.servers.txt
+use strict;
+use warnings;
+use autodie;
+
+my $servers          = "$ENV{HOME}/.servers.txt";
+my $screenrc_servers = "$ENV{HOME}/.screenrc_servers";
+
+# Add general stuff
+open my $screenrc_servers_fh, ">", $screenrc_servers;
+print $screenrc_servers_fh q{# define a bigger scrollback, default is 100 lines
+defscrollback 15000
+
+# turn sending of screen messages to hardstatus off
+hardstatus off
+
+startup_message off
+
+# ------------------------------------------------------------------------------
+# STARTUP SCREENS
+# ------------------------------------------------------------------------------
+#         Screen_name   Screen #        Startup command
+};
+close $screenrc_servers_fh;
+
+# Add list of servers to connect
+if ( -f $servers ) {
+    open my $servers_fh,          "<",  $servers;
+    open my $screenrc_servers_fh, ">>", $screenrc_servers;
+    my $screen = 0;
+    while (<$servers_fh>) {
+        chomp;
+        print $screenrc_servers_fh
+          "screen -t $_     $screen               ssh root\@$_\n";
+        $screen++;
+    }
+}
