@@ -36,3 +36,6 @@ if ( -f $servers ) {
         $screen++;
     }
 }
+
+print
+  "$screenrc_servers generated. To use it run:\n> screen -S servers -c $screenrc_servers\n";
