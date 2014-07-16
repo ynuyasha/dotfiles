@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+# Generate ~/.screenrc_local that will connect you to all the servers in ~/.servers.txt
+use strict;
+use warnings;
+use autodie;
+
+my $servers  = "$ENV{HOME}/.servers.txt";
+my $screenrc = "$ENV{HOME}/.screenrc_local";
+
+if ( -f $servers ) {
+    open my $servers_fh,  "<", $servers;
+    open my $screenrc_fh, ">", $screenrc;
+    my $screen = 0;
+    while (<$servers_fh>) {
+        chomp;
+        $screen++;
+        print $screenrc_fh
+          "screen -t $_     $screen               ssh root\@$_\n";
+    }
+}

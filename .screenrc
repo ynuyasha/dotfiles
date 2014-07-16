@@ -7,11 +7,12 @@ hardstatus off
 # An alternative hardstatus to display a bar at the bottom.
 hardstatus alwayslastline "%{+b wk}%H%{-b wk} %?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%? %-11=%{gk}%c %{yk}%M%d"
 
+startup_message off
+
 # ------------------------------------------------------------------------------
 # STARTUP SCREENS
 # ------------------------------------------------------------------------------
 #         Screen_name   Screen #        Startup command
-#screen -t monit         0               top
-#screen -t bash          1
+#screen -t localhost     0               top
 
-startup_message off
+source ~/.screenrc_local
