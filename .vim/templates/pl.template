@@ -52,6 +52,8 @@ May include numerous subsections (i.e., =head2, =head3, etc.).
 
 =head1 EXAMPLES
 
-    PROGNAME -h
+Print out a short help message and exit:
+
+    <program> -h
 
 =cut
