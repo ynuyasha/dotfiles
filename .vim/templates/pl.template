@@ -34,15 +34,15 @@ __END__
 
 =head1 NAME
 
-    <program> - <One-line description of programs's purpose>
+<program> - <One-line description of programs's purpose>
 
 =head1 SYNOPSIS
 
-    <program> [options]
+<program> [options]
 
-      Options:
-        -h, --help                       brief help message
-        -m, --man                        full documentation
+  Options:
+    -h, --help          brief help message
+    -m, --man           full documentation
 
 =head1 DESCRIPTION
 
