@@ -32,14 +32,17 @@ function todo () {
 }
 
 # Mount remote directory over SSH
+# You might need to uncomment user_allow_other in /etc/fuse.conf and add
+# yourself to fuse group.
 function mysshfs () {
     host=$1
     dir=$2
+    ldir=$3
 
-    if [ $# -ne 2 ]; then
-        echo "Usage: mysshfs HOST DIR"
+    if [ $# -ne 3 ]; then
+        echo "Usage: mysshfs HOST RDIR LDIR"
         return 1
     fi
 
-    sshfs -o allow_other root@$host:$dir ~/sshfs/ -o IdentityFile=~/.ssh/id_rsa
+    sshfs -o allow_other root@$host:$dir $ldir -o IdentityFile=~/.ssh/id_rsa
 }
