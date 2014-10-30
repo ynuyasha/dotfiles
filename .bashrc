@@ -39,7 +39,7 @@ function todo () {
 # yourself to fuse group.
 
 # Mount remote directory over SSH
-function sshfs_mount () {
+function mysshfs_mount () {
     host=$1
     dir=$2
 
@@ -55,12 +55,12 @@ function sshfs_mount () {
 }
 
 # List mounted remote directories
-function sshfs_list_mounted {
+function mysshfs_list_mounted {
     mount | grep sshfs
 }
 
 # Unmount remote directory
-function sshfs_umount () {
+function mysshfs_umount () {
     ldir=$1
 
     if [ $# -ne 1 ]; then
