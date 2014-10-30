@@ -31,15 +31,38 @@ function todo () {
     vi ~/todo
 }
 
+#########
+# SSHFS #
+#########
+
 # Mount remote directory over SSH
-function mysshfs () {
+function sshfs_mount () {
     host=$1
     dir=$2
 
     if [ $# -ne 2 ]; then
-        echo "Usage: mysshfs HOST DIR"
+        echo "Usage: sshfs_mount HOST RDIR"
         return 1
     fi
 
-    sshfs -o allow_other root@$host:$dir ~/sshfs/ -o IdentityFile=~/.ssh/id_rsa
+    ldir="$HOME/sshfs/$host/$dir"
+
+    [ -d $ldir ] || mkdir -p $ldir
+    sshfs -o allow_other root@$host:$dir $ldir -o IdentityFile=~/.ssh/id_rsa
+}
+
+function sshfs_list_mounted {
+    mount | grep sshfs
+}
+
+# Unmount remote directory over SSH
+function sshfs_umount () {
+    ldir=$1
+
+    if [ $# -ne 1 ]; then
+        echo "Usage: mysshfs_umount LDIR"
+        return 1
+    fi
+
+    fusermount -u $ldir
 }
