@@ -35,6 +35,9 @@ function todo () {
 # SSHFS #
 #########
 
+# You might need to uncomment user_allow_other in /etc/fuse.conf and add
+# yourself to fuse group.
+
 # Mount remote directory over SSH
 function sshfs_mount () {
     host=$1
@@ -51,11 +54,12 @@ function sshfs_mount () {
     sshfs -o allow_other root@$host:$dir $ldir -o IdentityFile=~/.ssh/id_rsa
 }
 
+# List mounted remote directories
 function sshfs_list_mounted {
     mount | grep sshfs
 }
 
-# Unmount remote directory over SSH
+# Unmount remote directory
 function sshfs_umount () {
     ldir=$1
 
