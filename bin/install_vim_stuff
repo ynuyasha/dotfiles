@@ -50,6 +50,11 @@ my $plugins = [
         local  => "$bundle_dir/nerdtree",
     },
     {
+        name   => 'vim nerd tree tabs',
+        remote => 'https://github.com/jistr/vim-nerdtree-tabs.git',
+        local  => "$bundle_dir/vim-nerdtree-tabs",
+    },
+    {
         name   => 'vim-markdown',
         remote => 'https://github.com/plasticboy/vim-markdown.git',
         local  => "$bundle_dir/vim-markdown",

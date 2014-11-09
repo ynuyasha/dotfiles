@@ -1,8 +1,9 @@
 " activate pathogen.vim
 call pathogen#infect()
 
-" open a NERDTree
-nnoremap <F4> :NERDTreeToggle<CR>
+" NERDTree
+nnoremap <F4> :NERDTreeTabsToggle<CR>
+nnoremap <t> :NERDTreeMapOpenInTab<CR>
 
 " open BufExplorer
 nnoremap <F5> :BufExplorer<CR>
