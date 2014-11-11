@@ -14,8 +14,8 @@ use Pod::Usage;
 my $help = 0;
 my $man  = 0;
 GetOptions(
-    "help|?" => \$help,
-    man      => \$man,
+    "help|h|?" => \$help,
+    man        => \$man,
 ) or pod2usage(2);
 
 # Help
@@ -41,8 +41,8 @@ __END__
 <program> [options]
 
   Options:
-    -h, --help          brief help message
-    -m, --man           full documentation
+    --help      brief help message
+    --man       full documentation
 
 =head1 DESCRIPTION
 
