@@ -38,6 +38,9 @@ function todo () {
 # You might need to uncomment user_allow_other in /etc/fuse.conf and add
 # yourself to fuse group.
 
+MYSSHFS_DIR="$HOME/mysshfs";
+[ -d $MYSSHFS_DIR ] || mkdir $MYSSHFS_DIR
+
 # Mount remote directory over SSH
 function mysshfs_mount () {
     host=$1
@@ -48,7 +51,7 @@ function mysshfs_mount () {
         return 1
     fi
 
-    ldir="$HOME/sshfs/$host/$dir"
+    ldir="$MYSSHFS_DIR/$host/$dir"
 
     [ -d $ldir ] || mkdir -p $ldir
     sshfs -o allow_other root@$host:$dir $ldir -o IdentityFile=~/.ssh/id_rsa
@@ -68,5 +71,8 @@ function mysshfs_umount () {
         return 1
     fi
 
-    fusermount -u $ldir
+    # unmount and remove empty dirs
+    current_dir=`pwd`
+    fusermount -u $ldir && cd $MYSSHFS_DIR && find -type d | grep -v '^\.$' | tac | xargs rmdir
+    cd $current_dir
 }
