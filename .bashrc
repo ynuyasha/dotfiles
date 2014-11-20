@@ -62,17 +62,3 @@ function mysshfs_list_mounted {
     mount | grep sshfs
 }
 
-# Unmount remote directory
-function mysshfs_umount () {
-    ldir=$1
-
-    if [ $# -ne 1 ]; then
-        echo "Usage: mysshfs_umount LDIR"
-        return 1
-    fi
-
-    # unmount and remove empty dirs
-    current_dir=`pwd`
-    fusermount -u $ldir && cd $MYSSHFS_DIR && find -type d | grep -v '^\.$' | tac | xargs rmdir
-    cd $current_dir
-}
