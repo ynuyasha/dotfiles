@@ -71,8 +71,8 @@ function mysshfs_umount () {
         return 1
     fi
 
-    # unmount and remove empty dirs
+    # unmount and remove empty dirs (for all mount points)
     current_dir=`pwd`
-    fusermount -u $ldir && cd $MYSSHFS_DIR && find $ldir -type d | grep -v '^\.$' | tac | xargs rmdir
+    fusermount -u $ldir && cd $MYSSHFS_DIR && find -type d | grep -v '^\.$' | tac | xargs rmdir
     cd $current_dir
 }
