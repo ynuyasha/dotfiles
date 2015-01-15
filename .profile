@@ -27,3 +27,6 @@ fi
 # Environment variables
 export EDITOR=vi
 
+PERL5LIB=$HOME/perl5/MyUtils/lib:$PERL5LIB; export PERL5LIB;
+PERL_MB_OPT="--install_base \"/home/jreisinger/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/jreisinger/perl5"; export PERL_MM_OPT;
