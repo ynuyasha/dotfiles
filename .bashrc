@@ -43,18 +43,19 @@ MYSSHFS_DIR="$HOME/mysshfs";
 
 # Mount remote directory over SSH
 function mysshfs_mount () {
-    host=$1
-    dir=$2
+    user=$1
+    host=$2
+    dir=$3
 
-    if [ $# -ne 2 ]; then
-        echo "Usage: sshfs_mount HOST RDIR"
+    if [ $# -ne 3 ]; then
+        echo "Usage: sshfs_mount USER HOST RDIR"
         return 1
     fi
 
     ldir="$MYSSHFS_DIR/$host/$dir"
 
     [ -d $ldir ] || mkdir -p $ldir
-    sshfs -o allow_other root@$host:$dir $ldir -o IdentityFile=~/.ssh/id_rsa
+    sshfs -o allow_other $user@$host:$dir $ldir -o IdentityFile=~/.ssh/id_rsa
 }
 
 # List mounted remote directories
