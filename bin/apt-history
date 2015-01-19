@@ -9,7 +9,7 @@ packages in format usable by 'apt-get remove'.
 
 =head1 SYNOPSIS
 
-apt-history [--help|--man]
+apt-history [options]
 
 Options:
 
@@ -41,7 +41,7 @@ GetOptions( "help|h|?" => \$opts{help}, "man" => \$opts{man} )
   or pod2usage(2);
 
 pod2usage(1) if $opts{help};
-pod2usage( -verbose => 2 ) if $opts{man};
+pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $opts{man};
 
 #
 # apt
