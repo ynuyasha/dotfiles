@@ -3,9 +3,31 @@
 use strict;
 use warnings;
 use autodie;
+use Getopt::Long;
+use Pod::Usage;
+
+#################
+# Configuration #
+#################
+
+# Command line options
+my $help = 0;
+my $man  = 0;
+GetOptions(
+    "help|h|?" => \$help,
+    man        => \$man,
+) or pod2usage(2);
+
+# Help
+pod2usage(1) if $help;
+pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $man;
 
 my $servers          = "$ENV{HOME}/.servers.txt";
 my $screenrc_servers = "$ENV{HOME}/.screenrc_servers";
+
+########
+# Main #
+########
 
 # Add general stuff
 open my $screenrc_servers_fh, ">", $screenrc_servers;
@@ -39,3 +61,20 @@ if ( -f $servers ) {
 
 print
   "$screenrc_servers generated. To use it run:\n> screen -S servers -c $screenrc_servers\n";
+
+__END__
+
+=head1 NAME
+
+gen-servers-screenrc - generate ~/.screenrc_servers that will connect you to
+all the servers listed in ~/.servers.txt
+
+=head1 SYNOPSIS
+
+gen-servers-screenrc [options]
+
+  Options:
+    --help      brief help message
+    --man       full documentation
+
+=cut
