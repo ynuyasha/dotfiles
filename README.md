@@ -1,7 +1,7 @@
 dotfiles
 ========
 
-Dot files repo. (The old dot file repo is https://github.com/jreisinger/dot-files.)
+Dot files repo. (The old dot file repo is https://github.com/jreisinger/dot-files.) See `bin` for utility scripts.
 
 Usage:
 
