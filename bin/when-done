@@ -2,7 +2,7 @@
 # Send an email when process is not running any more
 
 function usage {
-    echo "Usage: $0 process-name email-address"
+    echo "Usage: $0 <process-name> <email-address>"
     exit 1
 }
 
