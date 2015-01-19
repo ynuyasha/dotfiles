@@ -1,10 +1,30 @@
 #!/usr/bin/env perl
-# Install useful vim plugins.
-# Usage: run this script.
 use strict;
 use warnings;
 use File::Path qw(make_path remove_tree);
 use IPC::Cmd qw(can_run);
+use Getopt::Long;
+use Pod::Usage;
+
+#################
+# Configuration #
+#################
+
+# Command line options
+my $help = 0;
+my $man  = 0;
+GetOptions(
+    "help|h|?" => \$help,
+    man        => \$man,
+) or pod2usage(2);
+
+# Help
+pod2usage(1) if $help;
+pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $man;
+
+#############
+# Functions #
+#############
 
 sub _get_web {
     my ( $remote, $local ) = @_;
@@ -29,7 +49,9 @@ sub _get_git {
     }
 }
 
-# MAIN
+########
+# Main #
+########
 
 # Create necessary directories
 my $autoload_dir = "$ENV{HOME}/.vim/autoload";
@@ -75,3 +97,18 @@ for my $plugin (@$plugins) {
     }
 }
 
+__END__
+
+=head1 NAME
+
+install_vim_stuff - install useful vim plugins (from github)
+
+=head1 SYNOPSIS
+
+install_vim_stuff [options]
+
+  Options:
+    --help      brief help message
+    --man       full documentation
+
+=cut
