@@ -106,6 +106,9 @@ au Filetype perl vmap _t :Tidy<CR>
 " STOP Tidy Perl file
 "
 
+" insert Perl variable dumping stuff
+imap _d use Data::Dumper;<CR>print Dumper
+
 " Check syntax: \l
 command PerlLint !perl -c %
 nnoremap <leader>l :PerlLint<CR>
