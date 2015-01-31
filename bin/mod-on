@@ -43,9 +43,18 @@ my %dow = (
     Sunday    => 7,
 );
 
+my (@days) = grep eval { /^$target_dow/i }, keys %dow;
+if ( @days > 1 ) {
+    die "$target_dow is ambiguous day of week (@days)\n";
+} elsif ( @days == 1 ) {
+    $target_dow = $days[0];
+} else {
+    die "I don't know day of week named $target_dow\n";
+}
+
 if ( exists $dow{$target_dow} ) {
     $target_dow = $dow{$target_dow};
-} elsif ( not $target_dow =~ /[01234567]/ ) {
+} else {
     pod2usage( -exitval => 1, -verbose => 1 );
 }
 
@@ -100,18 +109,22 @@ __END__
 
 =head1 NAME
 
-    mod-on - find files modified on certain day of week
+    mod-on - find files modified on certain day within last week
 
 =head1 SYNOPSIS
 
-    mod-on [options] Day-of-week
+    mod-on [options] <day-name>
 
      Options:
-       --dir DIR[,DIR2,...] starting directory to search recursively (default is .)
        --help               brief help message
        --man                full documentation
+       --dir DIR[,DIR2,...] directory/directories to be searched recursively (default is .)
 
-    Day-of-week maybe a day name (Monday, Tuesday, ...) or a number from 0 to 7
-    where both 0 and 7 means Sunday.
+=head1 DESCRIPTION
+
+    <day-name> is a case insensitive weekday name (Monday, tuesday) 
+    that can be shortened to an unambiguous case insensitive value (m, Tu).
+
+    Based on exercise 7.1 from Intermediate Perl book.
 
 =cut
