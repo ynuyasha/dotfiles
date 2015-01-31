@@ -8,6 +8,10 @@ use Time::Local;
 use Getopt::Long;
 use Pod::Usage;
 
+#################
+# Configuration #
+#################
+
 # Command line options
 my $help = 0;
 my @dirs = (".");
@@ -45,6 +49,10 @@ if ( exists $dow{$target_dow} ) {
     pod2usage( -exitval => 1, -verbose => 1 );
 }
 
+########
+# Main #
+########
+
 my $seconds_per_day = 24 * 60 * 60;
 my ( $sec, $min, $hour, $day, $mon, $yr, $dow ) = localtime;
 my $start = timelocal( 0, 0, 0, $day, $mon, $yr );    # midnight today
@@ -52,7 +60,7 @@ my $start = timelocal( 0, 0, 0, $day, $mon, $yr );    # midnight today
 while ( $dow != $target_dow ) {
 
     # Back up one day
-    $start -= $seconds_per_day;                       # hope no DST! :-)
+    $start -= $seconds_per_day;                       # hope no DST today! :-)
     if ( --$dow < 0 ) {
         $dow += 7;
     }
@@ -70,23 +78,22 @@ for my $file (@files) {
     print "$when: $file\n";
 }
 
-# Return two coderef (closures) for find()
+# Return two coderefs (closures) for find()
 sub gather_mtime_between {
     my ( $start, $stop ) = @_;
 
     my @files;
-
-    sub {
+    my $gatherer = sub {
         my $mtime = ( stat $_ )[9];
         unless ( defined $mtime ) {
             warn "Can't stat $File::Find::name: $!, skipping\n";
             return;
         }
-        push @files, $File::Find::name
-          if $mtime >= $start and $mtime <= $stop;
-      }, sub {
-        @files;
-      }
+        push @files, $File::Find::name if $mtime >= $start and $mtime <= $stop;
+    };
+    my $fetcher = sub { @files };
+
+    ( $gatherer, $fetcher );
 }
 
 __END__
