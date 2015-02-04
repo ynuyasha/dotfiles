@@ -1,0 +1,8 @@
+#!/usr/bin/perl
+# Simple bc based calculator.
+use strict;
+use warnings;
+
+my $result = `echo @ARGV | bc -l`;
+print "@ARGV = ";
+printf "%.2f\n", $result;
