@@ -109,6 +109,9 @@ au Filetype perl vmap _t :Tidy<CR>
 " insert Perl variable dumping stuff
 imap _d use Data::Dumper;<CR>print Dumper
 
+" insert Perl script boiler plate
+imap _p #!/usr/bin/env perl<CR>use strict;<CR>use warnings;<CR>
+
 " Check syntax: \l
 command PerlLint !perl -c %
 nnoremap <leader>l :PerlLint<CR>
