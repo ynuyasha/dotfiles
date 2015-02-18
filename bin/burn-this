@@ -1,0 +1,13 @@
+#!/bin/bash
+
+FILE=$1
+
+function show_usage {
+    echo "Usage: $0 <file-to-burn.mp3>"
+    exit 1
+}
+
+[ -z "$FILE" ] && show_usage
+
+wodim dev=/dev/cdrw blank=fast && \
+mp3cd --no-cd-text -d /dev/cdrw $FILE
