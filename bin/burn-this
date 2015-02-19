@@ -3,11 +3,17 @@
 FILE=$1
 
 function show_usage {
-    echo "Usage: $0 <file-to-burn.mp3>"
+    echo "Usage: $0 [http://]<file-to-burn.mp3>"
     exit 1
 }
 
 [ -z "$FILE" ] && show_usage
+
+if [[ $FILE == "http://"* ]]; then
+    wget --directory-prefix=/var/tmp/ $FILE || exit 1
+    basename=`echo ${FILE##*/}`
+    FILE="/var/tmp/$basename"
+fi
 
 wodim dev=/dev/cdrw blank=fast && \
 mp3cd --no-cd-text -d /dev/cdrw $FILE
