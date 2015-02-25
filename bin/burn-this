@@ -10,10 +10,22 @@ function show_usage {
 [ -z "$FILE" ] && show_usage
 
 if [[ $FILE == "http://"* ]]; then
-    wget --directory-prefix=/var/tmp/ $FILE || exit 1
+
+    echo
+    echo "--> We have URL here, let's get the file from the Web ..."
+
     basename=`echo ${FILE##*/}`
-    FILE="/var/tmp/$basename"
+    OUTFILE="/var/tmp/$basename"
+
+    if [[ -e $OUTFILE ]]; then
+        echo "$OUTFILE already exists, not downloading it"
+    else
+        wget $FILE -O $OUTFILE || exit 1
+        FILE=$OUTFILE
+    fi
 fi
 
+echo
+echo "--> Let's burn ..."
 wodim dev=/dev/cdrw blank=fast && \
 mp3cd --no-cd-text -d /dev/cdrw $FILE
