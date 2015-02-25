@@ -8,11 +8,12 @@ function show_usage {
 }
 
 [ -z "$FILE" ] && show_usage
+[[ $FILE == *"mp3" ]] || show_usage
 
 if [[ $FILE == "http://"* ]]; then
 
     echo
-    echo "--> We have URL here, let's get the file from the Web ..."
+    echo "--> We have an URL here, let's get the file from the Web ..."
 
     basename=`echo ${FILE##*/}`
     OUTFILE="/var/tmp/$basename"
@@ -26,6 +27,6 @@ if [[ $FILE == "http://"* ]]; then
 fi
 
 echo
-echo "--> Let's burn ..."
+echo "--> Let's burn the file ..."
 wodim dev=/dev/cdrw blank=fast && \
 mp3cd --no-cd-text -d /dev/cdrw $FILE
