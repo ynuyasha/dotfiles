@@ -22,8 +22,9 @@ if [[ $FILE == "http://"* ]]; then
         echo "$OUTFILE already exists, not downloading it"
     else
         wget $FILE -O $OUTFILE || exit 1
-        FILE=$OUTFILE
     fi
+
+    FILE=$OUTFILE
 fi
 
 echo
