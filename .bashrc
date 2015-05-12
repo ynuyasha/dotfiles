@@ -77,3 +77,8 @@ function mysshfs_umount () {
     fusermount -u $ldir && cd $MYSSHFS_DIR && find -type d | grep -v '^\.$' | tac | xargs rmdir
     cd $current_dir
 }
+
+############
+# perlbrew #
+############
+source /home/jreisinger/perl5/perlbrew/etc/bashrc
