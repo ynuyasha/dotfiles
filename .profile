@@ -26,5 +26,6 @@ fi
 
 # Environment variables
 export EDITOR=vi
+export VISUAL=vi
 
 PERL5LIB=$HOME/perl5/MyUtils/lib:$PERL5LIB; export PERL5LIB;

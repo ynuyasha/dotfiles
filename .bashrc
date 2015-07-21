@@ -81,4 +81,7 @@ function mysshfs_umount () {
 ############
 # perlbrew #
 ############
-source /home/jreisinger/perl5/perlbrew/etc/bashrc
+
+if [ -f /home/jreisinger/perl5/perlbrew/etc/bashrc ]; then
+    source /home/jreisinger/perl5/perlbrew/etc/bashrc
+fi
