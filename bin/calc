@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+#
 # Simple bc based calculator.
 use strict;
 use warnings;
