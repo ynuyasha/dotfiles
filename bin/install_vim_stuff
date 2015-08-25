@@ -31,10 +31,10 @@ sub _get_web {
 
     # If curl is not there use wget
     print "Donwloading $remote to '$local'\n";
-    if ( can_run('curl') ) {
-        system "curl -so $local $remote";
+    if ( can_run('wget') ) {
+        system "wget -q -O $local $remote" and die;
     } else {
-        system "wget -q -O $local $remote";
+        system "curl -so $local $remote" and die;
     }
 }
 
