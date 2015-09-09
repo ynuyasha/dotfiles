@@ -6,6 +6,7 @@
 
 function usage_and_exit {
     cat << EOF >&2
+
 Usage: $0 [-u <username>] <host-file>
 
     Show whether it is possible to ssh into hosts listed in <host-file>.
