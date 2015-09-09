@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#
+# Functions
+#
+
+function usage_and_exit {
+    cat << EOF >&2
+Usage: $0 [-u <username>] <host-file>
+
+    Show whether it is possible to ssh into hosts listed in <host-file>.
+    Hostnames in <host-file> are separated by newlines.
+
+Options:
+
+    -u <username>   login as <username> (default: root)
+
+EOF
+
+    exit 1
+}
+
+
+#
+# Command line options and arguments parsing
+#
+
+while getopts :u: opt; do
+    case $opt in
+        u)      u=$OPTARG
+                ;;
+        '?')    echo "$0 Invalid option -$OPTARG" >&2
+                usage_and_exit
+                ;;
+    esac
+done
+
+# default username is root
+if [ -z "$u" ]; then
+    u=root
+fi    
+
+shift $((OPTIND - 1))   # remove options, leave arguments
+
+if [ $# -ne 1 ]; then
+    usage_and_exit
+fi
+
+#
+# MAIN
+#
+
+RED='\033[1;31m'
+NC='\033[0m' # No Color
+
+for h in $(cat $1)
+do printf "ssh-ing into %20s ... " $h
+    if ssh -q -o BatchMode=yes -o ConnectTimeout=3 $u@$h exit; then
+        echo "OK"
+    else
+        printf "${RED}FAIL${NC}\n"
+    fi
+done
