@@ -4,23 +4,85 @@
 # same startup scripts run for both login and non-login sessions. Debian's
 # ~/.profile sources ~/.bashrc, which has a similar effect.
 
-if [ -d "$HOME/perl5/lib/perl5" ]; then
-    [ $SHLVL -eq 1 ] && eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)"
-fi
+###########
+# History #
+###########
 
-export HISTSIZE=5000
-export HISTFILESIZE=5000
+export HISTSIZE=9999
+export HISTFILESIZE=9999
 export HISTTIMEFORMAT="%d.%m.%y %T "
 # don't put duplicate lines or lines starting with space in the history
 export HISTCONTROL=ignoreboth
 
-alias ls="ls --color"
-alias grep="grep --color"
+#####################
+# Colorful terminal #
+#####################
 
-# Open up the todo list
-function todo () {
-    vi ~/todo.md
-}
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ] || [ -x /bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto -h'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
+fi
+
+# Terminal colors
+txtblk='\e[0;30m' # Black - Regular
+txtred='\e[0;31m' # Red
+txtgrn='\e[0;32m' # Green
+txtylw='\e[0;33m' # Yellow
+txtblu='\e[0;34m' # Blue
+txtpur='\e[0;35m' # Purple
+txtcyn='\e[0;36m' # Cyan
+txtwht='\e[0;37m' # White
+bldblk='\e[1;30m' # Black - Bold
+bldred='\e[1;31m' # Red
+bldgrn='\e[1;32m' # Green
+bldylw='\e[1;33m' # Yellow
+bldblu='\e[1;34m' # Blue
+bldpur='\e[1;35m' # Purple
+bldcyn='\e[1;36m' # Cyan
+bldwht='\e[1;37m' # White
+unkblk='\e[4;30m' # Black - Underline
+undred='\e[4;31m' # Red
+undgrn='\e[4;32m' # Green
+undylw='\e[4;33m' # Yellow
+undblu='\e[4;34m' # Blue
+undpur='\e[4;35m' # Purple
+undcyn='\e[4;36m' # Cyan
+undwht='\e[4;37m' # White
+bakblk='\e[40m' # Black - Background
+bakred='\e[41m' # Red
+badgrn='\e[42m' # Green
+bakylw='\e[43m' # Yellow
+bakblu='\e[44m' # Blue
+bakpur='\e[45m' # Purple
+bakcyn='\e[46m' # Cyan
+bakwht='\e[47m' # White
+txtrst='\e[0m' # Text Reset
+
+# Colors in prompt
+CURRENT_USER="$(id -un)"
+if [ $CURRENT_USER = "root" ]; then
+  PS1="\[${bldred}\]\u\[${txtrst}\]@\h \w \[${bldred}\]% \[${txtrst}\]"
+else
+  PS1="\[${txtgrn}\]\u\[${txtrst}\]@\h \w \[${txtgrn}\]\$ \[${txtrst}\]"
+fi
+
+# Return codes and smileys :-)
+RETURN_FEEDBACK='RET=$?; if [[ $RET -eq 0 ]]; then echo -e "${txtgrn}$RET${txtrst} :)"; else echo -e "${bldred}$RET${txtrst} :("; fi;'
+TERM_PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
+SCREEN_WINDOW_TITLE='echo -ne "\033k\033\\";'
+SCREEN_PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
+case ${TERM} in
+  xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+    PROMPT_COMMAND="$RETURN_FEEDBACK $TERM_PROMPT_COMMAND"
+  ;;
+  screen*)
+    PROMPT_COMMAND="$RETURN_FEEDBACK $SCREEN_WINDOW_TITLE $SCREEN_PROMPT_COMMAND"
+  ;;
+esac
 
 #########
 # SSHFS #
@@ -69,10 +131,66 @@ function mysshfs_umount () {
     cd $current_dir
 }
 
-############
-# perlbrew #
-############
+########
+# Perl #
+########
 
+if [ -d "$HOME/perl5/lib/perl5" ]; then
+    [ $SHLVL -eq 1 ] && eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)"
+fi
+
+# perlbrew
 if [ -f /home/jreisinger/perl5/perlbrew/etc/bashrc ]; then
     source /home/jreisinger/perl5/perlbrew/etc/bashrc
 fi
+
+#####################
+# Various functions #
+#####################
+
+# Open up the todo list
+function todo () {
+    vi ~/todo.md
+}
+
+# Extract compressed files of various type
+function extract () {
+  if [ -f $1 ] ; then
+  case $1 in
+    *.tar.bz2) tar xvjf $1     ;;
+    *.tar.gz)  tar xvzf $1     ;;
+    *.bz2)     bunzip2 $1      ;;
+    *.rar)     unrar x $1      ;;
+    *.gz)      gunzip $1       ;;
+    *.tar)     tar xvf $1      ;;
+    *.tbz2)    tar xvjf $1     ;;
+    *.tgz)     tar xvzf $1     ;;
+    *.zip)     unzip $1        ;;
+    *.Z)       uncompress $1   ;;
+    *.7z)      7z x $1         ;;
+    *)         echo "'$1' cannot be extracted via >extract<" ;;
+  esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+###################
+# Various aliases #
+###################
+
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+
+# prevents accidentally clobbering files
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# other aliases
+alias h='history'
+alias j='jobs -l'
+alias path='echo -e ${PATH//:/\\n}'
+alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
