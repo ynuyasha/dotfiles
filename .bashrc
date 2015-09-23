@@ -15,20 +15,11 @@ export HISTTIMEFORMAT="%d.%m.%y %T "
 export HISTCONTROL=ignoreboth
 
 alias ls="ls --color"
-
-# Usage: bkup <file-to-backup>
-function bkup () {
-    # alpha sortable
-    newname=$1.`date +%Y%m%d.%H%M%S.bak`;
-    # handle open references to original file
-    mv $1 $newname;
-    echo "Backed up '$1' to '$newname'.";
-    cp -p $newname $1;
-}
+alias grep="grep --color"
 
 # Open up the todo list
 function todo () {
-    vi ~/todo
+    vi ~/todo.md
 }
 
 #########
