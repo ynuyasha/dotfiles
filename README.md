@@ -10,4 +10,4 @@ Usage:
 1. To install additional vim stuff run `~/bin/install_vim_stuff`
 1. To get your repos - https://github.com/jreisinger/gitmeta
 
-For non-public dot-files see `~/unison`.
+For non-public dot-files see `~/Dropbox/conf`.
