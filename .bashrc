@@ -194,3 +194,17 @@ alias h='history'
 alias j='jobs -l'
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
+
+##########
+# cygwin #
+##########
+#
+# so my environment is setup on cyqwin
+#
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+alias vi='vim'
