@@ -86,6 +86,11 @@ my $plugins = [
         remote => 'https://github.com/jlanzarotta/bufexplorer.git',
         local  => "$bundle_dir/bufexplorer",
     },
+    {
+        name   => 'ansible-vim',
+        remote => 'https://github.com/pearofducks/ansible-vim.git',
+        local  => "$bundle_dir/ansible-vim",
+    },
 ];
 
 for my $plugin (@$plugins) {
