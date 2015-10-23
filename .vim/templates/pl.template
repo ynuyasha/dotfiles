@@ -14,12 +14,12 @@ use Pod::Usage;
 my $help = 0;
 my $man  = 0;
 GetOptions(
-    "help|h|?" => \$help,
+    "h|?|help" => \$help,
     man        => \$man,
-) or pod2usage(2);
+) or pod2usage(1);
 
 # Help
-pod2usage(1) if $help;
+pod2usage(0) if $help;
 pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $man;
 
 ########
