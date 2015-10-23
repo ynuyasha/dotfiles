@@ -110,7 +110,7 @@ au Filetype perl vmap _t :Tidy<CR>
 imap <F8> use Data::Dumper;<CR>print Dumper 
 
 " insert Perl script boiler plate
-imap <F3> #!/usr/bin/env perl<CR>use strict;<CR>use warnings;<CR>
+imap <F3> #!/usr/bin/env perl<CR>use 5.016;<CR>use warnings;<CR>use autodie;<CR>
 
 " Check syntax: \l
 command PerlLint !perl -c %
