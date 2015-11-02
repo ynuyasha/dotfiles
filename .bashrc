@@ -208,3 +208,11 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 alias vi='vim'
+
+#######
+# Git #
+#######
+
+if [ -f ~/.git-completion.bash ]; then
+    source ~/.git-completion.bash
+fi

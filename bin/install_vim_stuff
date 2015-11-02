@@ -61,6 +61,12 @@ make_path $bundle_dir unless -d $bundle_dir;
 
 my $plugins = [
     {
+        name => 'git-completion.bash',
+        remote =>
+'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash',
+        local => "$ENV{HOME}/.git-completion.bash",
+    },
+    {
         name => 'pathogen.vim',
         remote =>
 'https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim',
@@ -106,7 +112,7 @@ __END__
 
 =head1 NAME
 
-install_vim_stuff - install useful vim plugins (from github)
+install_vim_stuff - install useful vim and git plugins (from github)
 
 =head1 SYNOPSIS
 
