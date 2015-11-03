@@ -70,20 +70,6 @@ else
   PS1="\[${txtgrn}\]\u\[${txtrst}\]@\h \w \[${txtgrn}\]\$ \[${txtrst}\]"
 fi
 
-# Return codes and smileys :-)
-RETURN_FEEDBACK='RET=$?; if [[ $RET -eq 0 ]]; then echo -e "${txtgrn}$RET${txtrst} :)"; else echo -e "${bldred}$RET${txtrst} :("; fi;'
-TERM_PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
-SCREEN_WINDOW_TITLE='echo -ne "\033k\033\\";'
-SCREEN_PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
-case ${TERM} in
-  xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
-    PROMPT_COMMAND="$RETURN_FEEDBACK $TERM_PROMPT_COMMAND"
-  ;;
-  screen*)
-    PROMPT_COMMAND="$RETURN_FEEDBACK $SCREEN_WINDOW_TITLE $SCREEN_PROMPT_COMMAND"
-  ;;
-esac
-
 #########
 # SSHFS #
 #########
