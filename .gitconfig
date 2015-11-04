@@ -1,0 +1,24 @@
+[user]
+        name = Jozef Reisinger
+        email = jozef.reisinger@gmail.com
+[color]
+        ui = true
+        branch = auto
+        diff = auto
+        interactive = auto
+        status = auto
+[core]
+        editor = vim
+[github]
+        login = jreisinger
+        email = jozef.reisinger@gmail.com
+[merge]
+        tool = vimdiff
+[alias]
+        s = status
+        l = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+        ll = log --name-status --decorate --abbrev-commit --all --graph
+        minor = commit -a -m 'minor change'
+        wdiff = diff --color-words
+[push]
+        default = matching
