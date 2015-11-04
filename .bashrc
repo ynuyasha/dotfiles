@@ -195,6 +195,8 @@ fi
 
 alias vi='vim'
 
+export VAGRANT_DETECTED_OS="$(uname)"
+
 #######
 # Git #
 #######
@@ -202,3 +204,4 @@ alias vi='vim'
 if [ -f ~/.git-completion.bash ]; then
     source ~/.git-completion.bash
 fi
+
