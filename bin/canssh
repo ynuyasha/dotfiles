@@ -25,9 +25,11 @@ EOF
 # Command line options and arguments parsing
 #
 
-while getopts :u: opt; do
+while getopts :u:h opt; do
     case $opt in
         u)      u=$OPTARG
+                ;;
+        h)      usage_and_exit
                 ;;
         '?')    echo "$0 Invalid option -$OPTARG" >&2
                 usage_and_exit
