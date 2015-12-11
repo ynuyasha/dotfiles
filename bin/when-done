@@ -1,10 +1,20 @@
 #!/bin/bash
-# Send an email when process is not running any more
 
 function usage {
+	echo Send an email when process is not running any more
     echo "Usage: $0 <process-name> <email-address>"
     exit 1
 }
+
+while getopts :h opt; do
+    case $opt in
+        h)      usage
+                ;;
+        '?')    echo "$0 Invalid option -$OPTARG" >&2
+                usage_and_exit
+                ;;
+    esac
+done
 
 if [ $# -ne 2 ]; then
     usage
