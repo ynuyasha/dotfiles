@@ -34,13 +34,13 @@ pod2usage( -exitval => 1, -verbose => 1 ) unless @ARGV == 1;
 my $target_dow = shift;
 
 my %dow = (
+    Sunday    => 0,    # let's stick with localtime()
     Monday    => 1,
     Tuesday   => 2,
     Wednesday => 3,
     Thursday  => 4,
     Friday    => 5,
     Saturday  => 6,
-    Sunday    => 7,
 );
 
 my (@days) = grep eval { /^$target_dow/i }, keys %dow;
