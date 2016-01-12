@@ -14,8 +14,8 @@ use Pod::Usage;
 
 # Command line options
 my $help = 0;
-my @dirs = (".");
 my $man  = 0;
+my @dirs;
 GetOptions(
     "help|?" => \$help,
     "man"    => \$man,
@@ -24,6 +24,7 @@ GetOptions(
 
 # comma-separated lists of values as well as multiple occurrences of the option
 @dirs = split( /,/, join( ',', @dirs ) );
+@dirs = qw(.) unless @dirs;
 
 # Help and manual page
 pod2usage(1) if $help;
