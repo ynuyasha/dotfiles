@@ -1,0 +1,39 @@
+#!/usr/bin/perl -s
+use strict;
+use warnings;
+use vars qw($h $v $s);    # command line switches
+
+usage() if $h;
+
+# Command
+usage(1) unless @ARGV == 1;
+my $cmd = shift;
+
+# Sleep time (60 seconds by default)
+my $sleep_time = defined $s ? $s : 60;
+usage(1) unless $sleep_time =~ /^\d+$/;
+
+print
+  "### sleeping between 0 and $sleep_time seconds before running '$cmd' ###\n"
+  if $v;
+
+sleep rand() * $sleep_time;    # sleep between 0 and $sleep_time seconds
+system $cmd;
+
+#######################################
+sub usage {
+#######################################
+    my $exit_code = (shift) // 0;
+
+    ( my $msg = << "EOF") =~ s/^\s+//gm;
+    $0 [-h] [-s=SECS] COMMAND
+    Sleep random amount of time before running the COMMAND
+    -h          print help message
+    -v          talk to me :-)
+    -s=MAX_SECS sleep between 0 and MAX_SECS seconds (default 60)
+EOF
+
+    print $msg;
+
+    exit $exit_code;
+}
