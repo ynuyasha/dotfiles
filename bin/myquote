@@ -3,7 +3,7 @@
 # Usage:
 #
 # PERL5LIB=/home/jreisinger/perl5/MyUtils/lib:/home/jreisinger/perl5/lib/perl5
-# * * * * *   $HOME/blog/bin/quote.pl > $HOME/public_html/quote.html
+# * * * * *   $HOME/bin/myquote > $HOME/public_html/quote.html
 use strict;
 use warnings;
 use LWP::Simple;
