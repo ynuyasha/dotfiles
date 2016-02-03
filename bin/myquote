@@ -1,13 +1,11 @@
-#!/usr/bin/perl
-# Print a random quote and the image in HTML format.
-# Usage:
-#
-# PERL5LIB=/home/jreisinger/perl5/MyUtils/lib:/home/jreisinger/perl5/lib/perl5
-# * * * * *   $HOME/bin/myquote > $HOME/public_html/quote.html
+#!/usr/bin/perl -s
 use strict;
 use warnings;
+use vars qw($h $w);    # command line switches
 use LWP::Simple;
 use CGI;
+
+usage() if $h;
 
 my $url =
   'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
@@ -17,25 +15,51 @@ exit unless $doc;
 my @quotes = split /\n+/, $doc;
 my $quote = $quotes[ rand @quotes ];
 
-# -- TimToady (http://irclog.perlgeek.de/perl6/2013-07-21)
-# ===>
-# -- <a href="http://irclog.perlgeek.de/perl6/2013-07-21">TimToady</a>
-$quote =~ s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
-
-my $q = CGI->new;
-
-#<<<
 binmode STDOUT, ':utf8';
-print 
-  $q->start_html( -title => "Quote of the Minute", -encoding => "utf-8" ),
-  $q->p($quote),
-  #$q->img(
-  #  {
-  #      src => "http://imgs.xkcd.com/comics/lisp.jpg",
-  #      title =>
-  #        "We lost the documentation on quantum mechanics.  You'\''ll have to decode the regexes yourself.",
-  #      alt => "Lisp"
-  #  }
-  #),
-  $q->end_html;
-#>>>
+if ($w) {
+
+    # -- TimToady (http://irclog.perlgeek.de/perl6/2013-07-21)
+    # ===>
+    # -- <a href="http://irclog.perlgeek.de/perl6/2013-07-21">TimToady</a>
+    $quote =~
+      s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
+
+    my $q = CGI->new;
+
+    #<<<
+    print 
+      $q->start_html( -title => "Quote of the Minute", -encoding => "utf-8" ),
+      $q->p($quote),
+      #$q->img(
+      #  {
+      #      src => "http://imgs.xkcd.com/comics/lisp.jpg",
+      #      title =>
+      #        "We lost the documentation on quantum mechanics.  You'\''ll have to decode the regexes yourself.",
+      #      alt => "Lisp"
+      #  }
+      #),
+      $q->end_html;
+    #>>>
+} else {
+    print $quote . "\n";
+}
+
+#######################################
+sub usage {
+#######################################
+    my $code = (shift) // 0;
+
+    my $msg = <<"EOF";
+$0 [-h] [-w]
+Print a random quote from my collection of quotes
+-w  in HTML format
+
+Usage from cron:
+PERL5LIB=\$HOME/perl5/MyUtils/lib:\$HOME/perl5/lib/perl5
+* * * * *   \$HOME/bin/myquote > \$HOME/public_html/quote.html
+EOF
+
+    print $msg;
+
+    exit $code;
+}
