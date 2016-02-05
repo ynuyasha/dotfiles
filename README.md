@@ -6,8 +6,10 @@ Dot files repo. (The old dot file repo is https://github.com/jreisinger/dot-file
 Usage:
 
     sudo apt-get install git vim perltidy screen wget
+    cd
     git clone git://github.com/ingydotnet/....git
     .../... conf .../example.conf
+    vi .../conf
     .../... update
     .../... install
     ~/bin/install_vim_stuff
