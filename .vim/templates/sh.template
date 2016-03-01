@@ -2,7 +2,7 @@
 
 help_and_exit() {
     cat << EOF
-$0 [options]
+${0##*/} [options]
 
   options:
     -h, -?      help
@@ -14,12 +14,14 @@ EOF
 }
 
 # A POSIX variable
-OPTIND=1         # Reset in case getopts has been used previously in the shell.
+OPTIND=1    # Reset in case getopts has been used previously in the shell.
 
 # Initialize our own variables:
 output_file=""
 verbose=0
 
+# getops can't handle long options (--help) but can handle options clustering
+# (-vf FILE)
 while getopts "h?vf:" opt; do
     case "$opt" in
     h|\?)
@@ -32,8 +34,8 @@ while getopts "h?vf:" opt; do
     esac
 done
 
+# Shift off the options and optional --
 shift $((OPTIND-1))
-
 [ "$1" = "--" ] && shift
 
 echo "verbose=$verbose, output_file='$output_file', Leftovers: $@"
