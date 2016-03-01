@@ -6,29 +6,14 @@ use autodie;
 use Getopt::Long;
 use Pod::Usage;
 
-#################
-# Configuration #
-#################
-
 # Command line options
 my $help = 0;
-my $man  = 0;
 GetOptions(
     "h|?|help" => \$help,
-    man        => \$man,
 ) or pod2usage(1);
 
 # Help
-pod2usage(0) if $help;
-pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $man;
-
-########
-# Main #
-########
-
-#############
-# Functions #
-#############
+pod2usage( -exitval => 0, -verbose => 2, -noperldoc => 1 ) if $help;
 
 __END__
 
@@ -40,9 +25,8 @@ __END__
 
 <program> [options]
 
-  Options:
+  options:
     -h, -?, --help  brief help message
-    --man           full documentation
 
 =head1 DESCRIPTION
 
