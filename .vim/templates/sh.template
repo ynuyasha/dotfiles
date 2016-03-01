@@ -1,1 +1,39 @@
 #!/bin/bash
+
+help_and_exit() {
+    cat << EOF
+$0 [options]
+
+  options:
+    -h, -?      help
+    -v          be verbose
+    -f FILE     work with FILE
+EOF
+
+    exit $1
+}
+
+# A POSIX variable
+OPTIND=1         # Reset in case getopts has been used previously in the shell.
+
+# Initialize our own variables:
+output_file=""
+verbose=0
+
+while getopts "h?vf:" opt; do
+    case "$opt" in
+    h|\?)
+        help_and_exit 0
+        ;;
+    v)  verbose=1
+        ;;
+    f)  output_file=$OPTARG
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+echo "verbose=$verbose, output_file='$output_file', Leftovers: $@"
