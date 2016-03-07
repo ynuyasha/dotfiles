@@ -7,9 +7,8 @@ use Getopt::Long;
 use Pod::Usage;
 
 # Command line options
-my $help = 0;
 GetOptions(
-    "h|?|help" => \$help,
+    "h|?|help" => \ my $help,
 ) or pod2usage(1);
 
 # Help
