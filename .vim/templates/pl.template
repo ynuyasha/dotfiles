@@ -1,14 +1,13 @@
-#!/usr/bin/perl
-use strict;
+#!/usr/bin/env perl
+use 5.014;
 use warnings;
-use 5.010;
 use autodie;
 use Getopt::Long;
 use Pod::Usage;
 
 # Command line options
 GetOptions(
-    "h|?|help" => \ my $help,
+    "h|?|help" => \( my $help ),
 ) or pod2usage(1);
 
 # Help
