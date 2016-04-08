@@ -9,6 +9,7 @@
         status = auto
 [core]
         editor = vim
+		filemode = false
 [github]
         login = jreisinger
         email = jozef.reisinger@gmail.com
