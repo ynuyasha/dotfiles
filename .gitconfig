@@ -17,8 +17,8 @@
         tool = vimdiff
 [alias]
         s = status
-        l = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-        ll = log --name-status --decorate --abbrev-commit --all --graph
+        l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+        ll = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --name-only
         minor = commit -a -m 'minor change'
         wdiff = diff --color-words
 [push]
