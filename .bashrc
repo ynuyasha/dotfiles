@@ -63,11 +63,14 @@ bakwht='\e[47m' # White
 txtrst='\e[0m' # Text Reset
 
 # Colors in prompt
+function current_git_branch {
+  git branch 2> /dev/null | perl -ne 'print "[$_]" if s/^\*\s+// && chomp'
+}
 CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
   PS1="\[${bldred}\]\u\[${txtrst}\]@\h \w \[${bldred}\]% \[${txtrst}\]"
 else
-  PS1="\[${txtgrn}\]\u\[${txtrst}\]@\h \w \[${txtgrn}\]\$ \[${txtrst}\]"
+  PS1="\[${txtgrn}\]\u\[${txtrst}\]@\h \w\$(current_git_branch) \[${txtgrn}\]\$ \[${txtrst}\]"
 fi
 
 #########
@@ -206,4 +209,3 @@ source ~/ansible/hacking/env-setup
 if [ -f ~/.git-completion.bash ]; then
     source ~/.git-completion.bash
 fi
-
