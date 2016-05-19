@@ -68,9 +68,9 @@ function current_git_branch {
 }
 CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
-	PS1="\[${bldred}\]\u\[${txtrst}\]@\h \w \[${bldred}\]% \[${txtrst}\]"
+	PS1="\u@\h \w \[${bldred}\]% \[${txtrst}\]"
 else
-	PS1="\[${txtgrn}\]\u\[${txtrst}\]@\h \w [\[${txtylw}\]\$(current_git_branch)\[${txtrst}\]] \[${txtgrn}\]\$ \[${txtrst}\]"
+	PS1="\u@${txtcyn}\h${txtrst} \w [${txtgrn}\$(current_git_branch)${txtrst}] ${bldgrn}\$ ${txtrst}"
 fi
 
 #########
