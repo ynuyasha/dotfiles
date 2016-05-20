@@ -194,7 +194,12 @@ fi
 
 export VAGRANT_DETECTED_OS="$(uname)"
 
+# In case we use Ansible from checkout (development version)
 if [ -f ~/ansible/hacking/env-setup ]; then
     source ~/ansible/hacking/env-setup
 fi
 
+# Upgrade my dotfiles
+if [ -e ~/bin/... ]; then
+    ... upgrade
+fi
