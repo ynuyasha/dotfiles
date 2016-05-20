@@ -62,7 +62,7 @@ bakcyn='\e[46m' # Cyan
 bakwht='\e[47m' # White
 txtrst='\e[0m' # Text Reset
 
-# Colors in prompt
+# Git branch in prompt
 function current_git_branch {
   git branch 2> /dev/null | perl -ne 'print "$_" if s/^\*\s+// && chomp'
 }
@@ -70,7 +70,13 @@ CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
 	PS1="\u@\h \w \[${bldred}\]% \[${txtrst}\]"
 else
+    # [] are needed for mintty/cygwin
 	PS1="\u@\[${txtcyn}\]\h\[${txtrst}\] \w [\[${txtgrn}\]\$(current_git_branch)\[${txtrst}]\] \[${bldgrn}\]\$ \[${txtrst}\]"
+fi
+
+# Git
+if [ -f ~/.git-completion.bash ]; then
+    source ~/.git-completion.bash
 fi
 
 #########
@@ -164,10 +170,6 @@ function extract () {
   fi
 }
 
-###################
-# Various aliases #
-###################
-
 # some more ls aliases
 alias ll='ls -l'
 alias la='ls -A'
@@ -183,20 +185,12 @@ alias h='history'
 alias j='jobs -l'
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
-
-##########
-# cygwin #
-##########
-#
-# so my environment is setup on cyqwin
-#
+alias vi='vim'
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-
-alias vi='vim'
 
 export VAGRANT_DETECTED_OS="$(uname)"
 
@@ -204,10 +198,3 @@ if [ -f ~/ansible/hacking/env-setup ]; then
     source ~/ansible/hacking/env-setup
 fi
 
-#######
-# Git #
-#######
-
-if [ -f ~/.git-completion.bash ]; then
-    source ~/.git-completion.bash
-fi
