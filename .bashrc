@@ -70,7 +70,7 @@ CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
 	PS1="\u@\h \w \[${bldred}\]% \[${txtrst}\]"
 else
-	PS1="\u@${txtcyn}\h${txtrst} \w [${txtgrn}\$(current_git_branch)${txtrst}] ${bldgrn}\$ ${txtrst}"
+	PS1="\u@\[${txtcyn}\]\h\[${txtrst}\] \w [\[${txtgrn}\]\$(current_git_branch)\[${txtrst}]\] \[${bldgrn}\]\$ \[${txtrst}\]"
 fi
 
 #########
