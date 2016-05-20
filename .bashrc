@@ -200,7 +200,9 @@ alias vi='vim'
 
 export VAGRANT_DETECTED_OS="$(uname)"
 
-source ~/ansible/hacking/env-setup
+if [ -f ~/ansible/hacking/env-setup ]; then
+    source ~/ansible/hacking/env-setup
+fi
 
 #######
 # Git #
