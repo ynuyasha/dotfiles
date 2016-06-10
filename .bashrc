@@ -65,9 +65,12 @@ txtrst='\e[0m' # Text Reset
 # Git stuff in prompt
 function git_info {
     [ -d .git ] || return
-    branch=$(git branch | perl -ne 'print "$_" if s/^\*\s+// && chomp')
+    msg=$(git branch | perl -ne 'print "$_" if s/^\*\s+// && chomp')
     status_lines=$(git status --porcelain | wc -l)
-    [[ $status_lines -eq 0 ]] && echo "$branch" || echo "$branch !"
+    [[ $status_lines -ne 0 ]] && msg="$msg !"
+    git status | grep -q push && msg="$msg^"
+    git status | grep -q pull && mgs="${msg}v"
+    echo $msg
 }
 CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
