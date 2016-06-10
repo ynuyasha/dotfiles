@@ -67,7 +67,7 @@ function current_git_branch {
     git branch 2> /dev/null | perl -ne 'print "$_" if s/^\*\s+// && chomp'
 }
 function git_status {
-    n_lines=$(git status --porcelain | wc -l)
+    n_lines=$(git status --porcelain 2> /dev/null | wc -l)
     [[ $n_lines -eq 0 ]] && echo "" || echo " !"
 }
 CURRENT_USER="$(id -un)"
