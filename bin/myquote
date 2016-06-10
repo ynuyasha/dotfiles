@@ -10,7 +10,10 @@ usage() if $h;
 my $url =
   'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
 my $doc = get $url;
-exit unless $doc;
+unless ($doc) {
+    getprint $url;
+    die "Exiting ...\n";
+}
 
 my @quotes = split /\n+/, $doc;
 my $quote = $quotes[ rand @quotes ];
