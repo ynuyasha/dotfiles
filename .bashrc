@@ -68,8 +68,8 @@ function git_info {
     msg=$(git branch | perl -ne 'print "$_" if s/^\*\s+// && chomp')
     status_lines=$(git status --porcelain | wc -l)
     [[ $status_lines -ne 0 ]] && msg="$msg !"
-    git status | grep -q push && msg="$msg^"
-    git status | grep -q pull && mgs="${msg}v"
+    git status | grep -q push && msg="$msg ^"
+    git status | grep -q pull && mgs="$msg v"
     echo $msg
 }
 CURRENT_USER="$(id -un)"
