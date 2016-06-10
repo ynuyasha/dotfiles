@@ -185,7 +185,9 @@ alias h='history'
 alias j='jobs -l'
 alias path='echo -e ${PATH//:/\\n}'
 alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
-alias vi='vim'
+if [ -e /usr/bin/vim ]; then
+    alias vi='vim'
+fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
