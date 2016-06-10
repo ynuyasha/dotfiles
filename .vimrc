@@ -17,7 +17,7 @@ filetype plugin indent on       " enable loading indent file for filetype
 filetype plugin on              " enable templates
 
 set ic  " ignore case during search
-set cursorline
+"set cursorline
 
 " Python completion (Ctrl-O-X). Needs: vim >= 7.0, vim-nox.
 " Problematic on cygwin.
