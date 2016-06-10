@@ -62,20 +62,19 @@ bakcyn='\e[46m' # Cyan
 bakwht='\e[47m' # White
 txtrst='\e[0m' # Text Reset
 
-# Git branch in prompt
-function current_git_branch {
-    git branch 2> /dev/null | perl -ne 'print "$_" if s/^\*\s+// && chomp'
-}
-function git_status {
-    n_lines=$(git status --porcelain 2> /dev/null | wc -l)
-    [[ $n_lines -eq 0 ]] && echo "" || echo " !"
+# Git stuff in prompt
+function git_info {
+    [ -d .git ] || return
+    branch=$(git branch | perl -ne 'print "$_" if s/^\*\s+// && chomp')
+    status_lines=$(git status --porcelain | wc -l)
+    [[ $status_lines -eq 0 ]] && echo "$branch" || echo "$branch !"
 }
 CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
-	PS1="\u@\h \w \[${bldred}\]% \[${txtrst}\]"
+    PS1="\u@\h \w \[${bldred}\]% \[${txtrst}\]"
 else
     # [] are needed for mintty/cygwin
-	PS1="\u@\[${txtcyn}\]\h\[${txtrst}\] \w [\$(current_git_branch)\[${bldred}\]\$(git_status)\[${txtrst}]\] \[${bldgrn}\]\$ \[${txtrst}\]"
+    PS1="\u@\[${txtcyn}\]\h\[${txtrst}\] \w [\$(git_info)] \[${bldgrn}\]\$ \[${txtrst}\]"
 fi
 
 # Git
