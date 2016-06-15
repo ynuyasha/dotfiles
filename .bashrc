@@ -76,7 +76,7 @@ CURRENT_USER="$(id -un)"
 if [ $CURRENT_USER = "root" ]; then
     PS1="\u@\h \w \[${bldred}\]% \[${txtrst}\]"
 else
-    # [] are needed for mintty/cygwin
+    # \[\] around colors are needed for mintty/cygwin
     PS1="\u@\[${txtcyn}\]\h\[${txtrst}\] \w [\$(git_info)] \[${bldgrn}\]\$ \[${txtrst}\]"
 fi
 
