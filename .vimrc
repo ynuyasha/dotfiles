@@ -2,7 +2,7 @@
 "call pathogen#infect()
 
 " NERDTree
-nnoremap <F4> :NERDTreeTabsToggle<CR>
+nnoremap <F4> :NERDTreeToggle<CR>
 nnoremap <t> :NERDTreeMapOpenInTab<CR>
 
 " open BufExplorer
