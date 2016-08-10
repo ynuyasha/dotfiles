@@ -141,8 +141,8 @@ if [ -d "$HOME/perl5/lib/perl5" ]; then
 fi
 
 # perlbrew
-if [ -f /home/jreisinger/perl5/perlbrew/etc/bashrc ]; then
-    source /home/jreisinger/perl5/perlbrew/etc/bashrc
+if [ -f "$HOME/perl5/perlbrew/etc/bashrc" ]; then
+    source "$HOME/perl5/perlbrew/etc/bashrc"
 fi
 
 #####################
