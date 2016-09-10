@@ -1,7 +1,8 @@
 #!/usr/bin/perl -s
 use strict;
 use warnings;
-use vars qw($h $w);    # command line switches
+use vars qw($h $w);          # command line switches
+use LWP::Protocol::https;    # for SSL (https) support
 use LWP::Simple;
 use CGI;
 
