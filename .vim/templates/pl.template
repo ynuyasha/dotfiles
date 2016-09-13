@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
-use 5.014;  # includes strict and warnings
+use 5.014;      # includes strict
+use warnings;
 use autodie;
 use Getopt::Long;
 use Pod::Usage;
