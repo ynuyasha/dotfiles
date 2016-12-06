@@ -5,6 +5,9 @@ use autodie;
 use Getopt::Long;
 use Pod::Usage;
 
+# https://perlancar.wordpress.com/2016/12/01/getopt-modules-01-getoptlong/
+Getopt::Long::Configure("bundling", "no_ignore_case", "permute", "no_getopt_compat");
+
 # Command line options
 GetOptions(
     "h|?|help" => \( my $help ),
