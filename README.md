@@ -13,5 +13,7 @@ Usage:
     .../... update
     .../... install
     ~/bin/install_vim_stuff
+    
+... or just copy the files.
 
 To get your repos - https://github.com/jreisinger/gitmeta
