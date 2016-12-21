@@ -64,7 +64,7 @@ txtrst='\e[0m' # Text Reset
 
 # Git stuff in prompt
 function git_info {
-    [ -d .git ] || return
+    git status > /dev/null 2>&1 || return
     msg=$(git branch | perl -ne 'print "$_" if s/^\*\s+// && chomp')
     status_lines=$(git status --porcelain | wc -l)
     [[ $status_lines -ne 0 ]] && msg="$msg !"
