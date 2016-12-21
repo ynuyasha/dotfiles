@@ -6,7 +6,7 @@ Dot files repo (deprecating the old dot file [repo](https://github.com/jreisinge
 Installation
 ------------
 
-Install packages (remove `#` to include optional but recommended packages)
+1) Install packages (remove `#` to include optional but recommended packages)
 
     sudo apt-get install git # vim perltidy screen wget cpio
     
@@ -14,7 +14,7 @@ Install packages (remove `#` to include optional but recommended packages)
 
     sudo yum install git # vim perltidy screen wget cpio
 
-Install dot files
+2) Install dot files
 
     cd
     git clone git://github.com/ingydotnet/....git
@@ -25,8 +25,8 @@ Install dot files
     
 ... or just copy the files.
 
-Install Vim stuff (OPTIONAL)
+3) Install Vim stuff (OPTIONAL)
 
     ~/bin/install_vim_stuff
 
-[Get your Git repos](https://github.com/jreisinger/gitmeta) (OPTIONAL)
+4) [Get your Git repos](https://github.com/jreisinger/gitmeta) (OPTIONAL)
