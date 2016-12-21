@@ -1,7 +1,7 @@
 dotfiles
 --------
 
-Dot files repo. (The old dot file repo is https://github.com/jreisinger/dot-files.) See `bin` for utility scripts.
+Dot files repo (deprecating the old dot file [repo](https://github.com/jreisinger/dot-files)). See `bin` for utility scripts.
 
 Usage:
 
@@ -16,4 +16,4 @@ Usage:
     
 ... or just copy the files.
 
-To get your repos - https://github.com/jreisinger/gitmeta
+To get your Git repos - https://github.com/jreisinger/gitmeta
