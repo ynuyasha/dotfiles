@@ -26,8 +26,15 @@ __END__
 
 <program> [options]
 
-  options:
-    -h, -?, --help  brief help message
+=head1 OPTIONS
+
+=over 4
+
+=item B<-h, -?, --help>
+
+Brief help message.
+
+=back
 
 =head1 DESCRIPTION
 
