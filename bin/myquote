@@ -60,7 +60,7 @@ sub slowprint {
     my $text = shift;
     for my $char ( split //, $text ) {
         print $char;
-        select( undef, undef, undef, 0.1 );
+        select( undef, undef, undef, 0.005 * $s );
     }
 }
 
@@ -72,8 +72,8 @@ sub usage {
     my $msg = <<"EOF";
 $0 [-h] [-w|-s]
 Print a random quote from my collection of quotes
--w  in HTML format
--s  print characters slowly; ignored when -w is used
+-w          in HTML format
+-s[=DELAY]  print characters slowly; ignored when -w is used
 
 Usage from cron:
 PERL5LIB=\$HOME/perl5/MyUtils/lib:\$HOME/perl5/lib/perl5
