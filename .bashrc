@@ -211,3 +211,8 @@ fi
 if [ -e ~/bin/... ]; then
     ... upgrade
 fi
+
+# Print quote
+if [ -e ~/bin/myquote ]; then
+    myquote -s
+fi
