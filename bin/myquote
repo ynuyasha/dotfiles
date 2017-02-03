@@ -1,10 +1,12 @@
 #!/usr/bin/perl -s
 use strict;
 use warnings;
-use vars qw($h $w);          # command line switches
+use vars qw($h $w $s);       # command line switches
 use LWP::Protocol::https;    # for SSL (https) support
 use LWP::Simple;
 use CGI;
+
+$|++;
 
 usage() if $h;
 
@@ -45,7 +47,21 @@ if ($w) {
       $q->end_html;
     #>>>
 } else {
-    print $quote . "\n";
+    if ($s) {
+        slowprint( $quote . "\n" );
+    } else {
+        print $quote . "\n";
+    }
+}
+
+#######################################
+sub slowprint {
+#######################################
+    my $text = shift;
+    for my $char ( split //, $text ) {
+        print $char;
+        select( undef, undef, undef, 0.1 );
+    }
 }
 
 #######################################
@@ -54,9 +70,10 @@ sub usage {
     my $code = (shift) // 0;
 
     my $msg = <<"EOF";
-$0 [-h] [-w]
+$0 [-h] [-w|-s]
 Print a random quote from my collection of quotes
 -w  in HTML format
+-s  print characters slowly; ignored when -w is used
 
 Usage from cron:
 PERL5LIB=\$HOME/perl5/MyUtils/lib:\$HOME/perl5/lib/perl5
