@@ -6,23 +6,40 @@ use LWP::Protocol::https;    # for SSL (https) support
 use LWP::Simple;
 use CGI;
 
-$|++;
-
 usage() if $h;
 
-my $url =
-  'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
-my $doc = get $url;
-unless ($doc) {
-    getprint $url;
-    die "Exiting ...\n";
+my $quote = get_quote();
+print_quote($quote);
+
+#######################################
+sub print_quote {
+#######################################
+    my $quote = shift;
+
+    local $| = 1;
+    binmode STDOUT, ':utf8';
+
+    if ($w) {       # print in HTML format
+        $quote = parens_to_link($quote);
+
+        my $q = CGI->new;
+        #<<<
+        print 
+          $q->start_html( -title => "Quote of the Minute", -encoding => "utf-8" ),
+          $q->p($quote),
+          $q->end_html;
+        #>>>
+    } elsif ($s) {  # print slowly
+         slowprint( $quote . "\n" );
+    } else {        # print normally
+         print( $quote . "\n" );
+    }
 }
 
-my @quotes = split /\n+/, $doc;
-my $quote = $quotes[ rand @quotes ];
-
-binmode STDOUT, ':utf8';
-if ($w) {
+#######################################
+sub parens_to_link {
+#######################################
+    my $quote = shift;
 
     # -- TimToady (http://irclog.perlgeek.de/perl6/2013-07-21)
     # ===>
@@ -30,29 +47,26 @@ if ($w) {
     $quote =~
       s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
 
-    my $q = CGI->new;
-
-    #<<<
-    print 
-      $q->start_html( -title => "Quote of the Minute", -encoding => "utf-8" ),
-      $q->p($quote),
-      #$q->img(
-      #  {
-      #      src => "http://imgs.xkcd.com/comics/lisp.jpg",
-      #      title =>
-      #        "We lost the documentation on quantum mechanics.  You'\''ll have to decode the regexes yourself.",
-      #      alt => "Lisp"
-      #  }
-      #),
-      $q->end_html;
-    #>>>
-} else {
-    if ($s) {
-        slowprint( $quote . "\n" );
-    } else {
-        print $quote . "\n";
-    }
+    return $quote;
 }
+
+#######################################
+sub get_quote {
+#######################################
+    my $url =
+      'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
+
+    my $doc = get $url;
+    unless ($doc) {    # get() failed ...
+        getprint $url; # ... so print status code and message on STDERR.
+        die "Exiting ...\n";
+    }
+
+    my @quotes = split /\n+/, $doc;
+    my $quote = $quotes[ rand @quotes ];
+    return $quote;
+}
+
 
 #######################################
 sub slowprint {
