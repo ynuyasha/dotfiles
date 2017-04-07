@@ -8,7 +8,8 @@ use CGI;
 
 usage() if $h;
 
-my $quote = get_quote();
+my $url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
+my $quote = get_quote($url);
 print_quote($quote);
 
 #######################################
@@ -25,7 +26,7 @@ sub print_quote {
         my $q = CGI->new;
         #<<<
         print 
-          $q->start_html( -title => "Quote of the Minute", -encoding => "utf-8" ),
+          $q->start_html(-title => "Quote of the Minute", -encoding => "utf-8"),
           $q->p($quote),
           $q->end_html;
         #>>>
@@ -53,8 +54,7 @@ sub parens_to_link {
 #######################################
 sub get_quote {
 #######################################
-    my $url =
-      'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
+    my $url = shift;
 
     my $doc = get $url;
     unless ($doc) {    # get() failed ...
@@ -64,6 +64,7 @@ sub get_quote {
 
     my @quotes = split /\n+/, $doc;
     my $quote = $quotes[ rand @quotes ];
+
     return $quote;
 }
 
@@ -72,6 +73,7 @@ sub get_quote {
 sub slowprint {
 #######################################
     my $text = shift;
+
     for my $char ( split //, $text ) {
         print $char;
         select( undef, undef, undef, 0.005 * $s );
