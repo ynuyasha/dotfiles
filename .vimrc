@@ -121,6 +121,10 @@ set makeprg=perl\ -c\ -MVi::QuickFix\ %
 set errorformat+=%m\ at\ %f\ line\ %l\.
 set errorformat+=%m\ at\ %f\ line\ %l
 
+" Comments are important
+
+highlight Comment term=bold ctermfg=white
+
 " Enable spell checking
 "set spell
 
