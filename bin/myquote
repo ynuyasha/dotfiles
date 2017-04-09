@@ -5,6 +5,7 @@ use vars qw($h $w $s);       # command line switches
 use LWP::Protocol::https;    # for SSL (https) support
 use LWP::Simple;
 use CGI;
+use open qw(:std :utf8);     # undeclared streams in UTF-8
 
 usage() if $h;
 
@@ -13,12 +14,43 @@ my $quote = get_quote($url);
 print_quote($quote);
 
 #######################################
+sub get_quote {
+#######################################
+    my $url = shift;
+    
+    my $local_file = '/tmp/quotes.txt';
+
+    if (not -e $local_file or -M $local_file > 1) {
+        download_quotes($url, $local_file);
+    }
+
+    open my $fh, "<", $local_file or die "Can't open $local_file: $!";
+    my @quotes = grep /\S+/, <$fh>;
+    chomp(@quotes);
+    my $quote = $quotes[ rand @quotes ];
+
+    return $quote;
+}
+
+#######################################
+sub download_quotes {
+#######################################
+    my ($url, $local_file) = @_;
+
+    my $doc = get $url;
+    unless ($doc) {    # get() failed ...
+        getprint $url; # ... so print status code and message on STDERR.
+        warn "WARN: Problem donwloading $url\n";
+    }
+
+    open my $fh, ">", $local_file;
+    print $fh $doc;
+}
+
+#######################################
 sub print_quote {
 #######################################
     my $quote = shift;
-
-    local $| = 1;
-    binmode STDOUT, ':utf8';
 
     if ($w) {       # print in HTML format
         $quote = parens_to_link($quote);
@@ -50,24 +82,6 @@ sub parens_to_link {
 
     return $quote;
 }
-
-#######################################
-sub get_quote {
-#######################################
-    my $url = shift;
-
-    my $doc = get $url;
-    unless ($doc) {    # get() failed ...
-        getprint $url; # ... so print status code and message on STDERR.
-        die "Exiting ...\n";
-    }
-
-    my @quotes = split /\n+/, $doc;
-    my $quote = $quotes[ rand @quotes ];
-
-    return $quote;
-}
-
 
 #######################################
 sub slowprint {
