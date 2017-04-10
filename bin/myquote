@@ -9,6 +9,8 @@ use open qw(:std :utf8);     # undeclared streams in UTF-8
 
 usage() if $h;
 
+$|++; # needed for slowprint() to work
+
 my $url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
 my $quote = get_quote($url);
 print_quote($quote);
