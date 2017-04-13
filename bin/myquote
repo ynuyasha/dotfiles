@@ -7,20 +7,41 @@ use LWP::Simple;
 use CGI;
 use open qw(:std :utf8);     # undeclared streams in UTF-8
 
-usage() if $h;
-
 $|++; # needed for slowprint() to work
 
+usage() if $h;
+my $string = shift;
+
+my $local_file = '/tmp/quotes.txt';
 my $url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
-my $quote = get_quote($url);
+
+my $quote = do {
+    if ($string)    { get_quotes($url) } 
+    else            { get_rand_quote($url) }
+};
 print_quote($quote);
 
 #######################################
-sub get_quote {
+sub get_quotes {
 #######################################
     my $url = shift;
-    
-    my $local_file = '/tmp/quotes.txt';
+
+    if (not -e $local_file or -M $local_file > 1) {
+        download_quotes($url, $local_file);
+    }
+
+    open my $fh, "<", $local_file or die "Can't open $local_file: $!";
+    my @quotes = grep /\S+/, <$fh>;
+    chomp(@quotes);
+    @quotes = grep /$string/i, @quotes;
+
+    return \@quotes;
+}
+
+#######################################
+sub get_rand_quote {
+#######################################
+    my $url = shift;
 
     if (not -e $local_file or -M $local_file > 1) {
         download_quotes($url, $local_file);
@@ -67,7 +88,11 @@ sub print_quote {
     } elsif ($s) {  # print slowly
          slowprint( $quote . "\n" );
     } else {        # print normally
-         print( $quote . "\n" );
+        if (ref $quote) {   # all quotes containing STRING
+            print join("\n\n", @$quote), "\n";
+        } else {            # random quote
+            print( $quote . "\n" );
+        }
     }
 }
 
@@ -102,10 +127,12 @@ sub usage {
     my $code = (shift) // 0;
 
     my $msg = <<"EOF";
-$0 [-h] [-w|-s]
-Print a random quote from my collection of quotes
--w          in HTML format
--s[=DELAY]  print characters slowly; ignored when -w is used
+$0 [-h] [-w|-s] [STRING]
+Print a random quote from my collection of quotes. If STRING is supplied
+quotes containing the STRING (ignoring the case) are printed.
+
+-w          in HTML format; ignored whe STRING is used
+-s[=DELAY]  print characters slowly; ignored when -w or STRING is used
 
 Usage from cron:
 PERL5LIB=\$HOME/perl5/MyUtils/lib:\$HOME/perl5/lib/perl5
