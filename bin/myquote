@@ -16,7 +16,7 @@ my $local_file = '/tmp/quotes.txt';
 my $url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
 
 my $quote = do {
-    if ($string)    { get_quotes($url) } 
+    if ($string)    { get_quotes($url) }
     else            { get_rand_quote($url) }
 };
 print_quote($quote);
@@ -80,8 +80,8 @@ sub print_quote {
 
         my $q = CGI->new;
         #<<<
-        print 
-          $q->start_html(-title => "Quote of the Minute", -encoding => "utf-8"),
+        print
+          $q->start_html(-title => "a quote", -encoding => "utf-8"),
           $q->p($quote),
           $q->end_html;
         #>>>
