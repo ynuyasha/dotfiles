@@ -85,8 +85,10 @@ sub print_quote {
           $q->p($quote),
           $q->end_html;
         #>>>
+    } elsif ($a) {  # for a web app
+        print((join "|", parens_to_link($quote)), "\n"); # called in a list context
     } elsif ($s) {  # print slowly
-         slowprint( $quote . "\n" );
+        slowprint( $quote . "\n" );
     } else {        # print normally
         if (ref $quote) {   # all quotes containing STRING
             print join("\n\n", @$quote), "\n";
@@ -101,13 +103,22 @@ sub parens_to_link {
 #######################################
     my $quote = shift;
 
+    my $quote_with_link = $quote;
     # -- TimToady (http://irclog.perlgeek.de/perl6/2013-07-21)
     # ===>
     # -- <a href="http://irclog.perlgeek.de/perl6/2013-07-21">TimToady</a>
-    $quote =~
+    $quote_with_link =~
       s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
 
-    return $quote;
+    my ($url, $link) = ("", "");
+    if ( $quote =~ m#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)# ) {
+        ($url, $link) = ($2, $1);
+        $quote =~
+            s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)##;
+    }
+
+    return unless defined wantarray; # don't bother doing more
+    return wantarray ? ($quote, $url, $link) : $quote_with_link;
 }
 
 #######################################
@@ -127,11 +138,12 @@ sub usage {
     my $code = (shift) // 0;
 
     my $msg = <<"EOF";
-$0 [-h] [-w|-s] [STRING]
+$0 [-h] [-a|-w|-s] [STRING]
 Print a random quote from my collection of quotes. If STRING is supplied
 quotes containing the STRING (ignoring the case) are printed.
 
--w          in HTML format; ignored whe STRING is used
+-a          in a form prepared for a web app (quote, url, link)
+-w          in HTML format; ignored when STRING is used
 -s[=DELAY]  print characters slowly; ignored when -w or STRING is used
 
 Usage from cron:
