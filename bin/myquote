@@ -108,13 +108,13 @@ sub parens_to_link {
     # ===>
     # -- <a href="http://irclog.perlgeek.de/perl6/2013-07-21">TimToady</a>
     $quote_with_link =~
-      s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
+      s#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
 
     my ($url, $link) = ("", "");
-    if ( $quote =~ m#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)# ) {
+    if ( $quote =~ m#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)# ) {
         ($url, $link) = ($2, $1);
         $quote =~
-            s#--\s{0,3}([^(]+?)\s+\((http:\/\/[^)]+)\)##;
+            s#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)##;
     }
 
     return unless defined wantarray; # don't bother doing more
