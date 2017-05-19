@@ -1,23 +1,24 @@
 #!/usr/bin/perl -s
 use strict;
 use warnings;
-use vars qw($h $w $s);       # command line switches
+use vars qw($h $w $s $a);    # command line switches
 use LWP::Protocol::https;    # for SSL (https) support
 use LWP::Simple;
 use CGI;
 use open qw(:std :utf8);     # undeclared streams in UTF-8
 
-$|++; # needed for slowprint() to work
+$|++;                        # needed for slowprint() to work
 
 usage() if $h;
 my $string = shift;
 
 my $local_file = '/tmp/quotes.txt';
-my $url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
+my $url =
+  'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt';
 
 my $quote = do {
-    if ($string)    { get_quotes($url) }
-    else            { get_rand_quote($url) }
+    if   ($string) { get_quotes($url) }
+    else           { get_rand_quote($url) }
 };
 print_quote($quote);
 
@@ -26,8 +27,8 @@ sub get_quotes {
 #######################################
     my $url = shift;
 
-    if (not -e $local_file or -M $local_file > 1) {
-        download_quotes($url, $local_file);
+    if ( not -e $local_file or -M $local_file > 1 ) {
+        download_quotes( $url, $local_file );
     }
 
     open my $fh, "<", $local_file or die "Can't open $local_file: $!";
@@ -43,8 +44,8 @@ sub get_rand_quote {
 #######################################
     my $url = shift;
 
-    if (not -e $local_file or -M $local_file > 1) {
-        download_quotes($url, $local_file);
+    if ( not -e $local_file or -M $local_file > 1 ) {
+        download_quotes( $url, $local_file );
     }
 
     open my $fh, "<", $local_file or die "Can't open $local_file: $!";
@@ -58,11 +59,11 @@ sub get_rand_quote {
 #######################################
 sub download_quotes {
 #######################################
-    my ($url, $local_file) = @_;
+    my ( $url, $local_file ) = @_;
 
     my $doc = get $url;
     unless ($doc) {    # get() failed ...
-        getprint $url; # ... so print status code and message on STDERR.
+        getprint $url;    # ... so print status code and message on STDERR.
         warn "WARN: Problem donwloading $url\n";
     }
 
@@ -75,7 +76,7 @@ sub print_quote {
 #######################################
     my $quote = shift;
 
-    if ($w) {       # print in HTML format
+    if ($w) {    # print in HTML format
         $quote = parens_to_link($quote);
 
         my $q = CGI->new;
@@ -85,14 +86,15 @@ sub print_quote {
           $q->p($quote),
           $q->end_html;
         #>>>
-    } elsif ($a) {  # for a web app
-        print((join "|", parens_to_link($quote)), "\n"); # called in a list context
-    } elsif ($s) {  # print slowly
+    } elsif ($a) {    # for a web app
+        print( ( join "|", parens_to_link($quote) ), "\n" )
+          ;           # called in a list context
+    } elsif ($s) {    # print slowly
         slowprint( $quote . "\n" );
-    } else {        # print normally
-        if (ref $quote) {   # all quotes containing STRING
-            print join("\n\n", @$quote), "\n";
-        } else {            # random quote
+    } else {          # print normally
+        if ( ref $quote ) {    # all quotes containing STRING
+            print join( "\n\n", @$quote ), "\n";
+        } else {               # random quote
             print( $quote . "\n" );
         }
     }
@@ -104,21 +106,21 @@ sub parens_to_link {
     my $quote = shift;
 
     my $quote_with_link = $quote;
+
     # -- TimToady (http://irclog.perlgeek.de/perl6/2013-07-21)
     # ===>
     # -- <a href="http://irclog.perlgeek.de/perl6/2013-07-21">TimToady</a>
     $quote_with_link =~
       s#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)#-- <a href="$2">$1</a>#;
 
-    my ($url, $link) = ("", "");
+    my ( $url, $link ) = ( "", "" );
     if ( $quote =~ m#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)# ) {
-        ($url, $link) = ($2, $1);
-        $quote =~
-            s#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)##;
+        ( $url, $link ) = ( $2, $1 );
+        $quote =~ s#--\s{0,3}([^(]+?)\s+\((https?:\/\/[^)]+)\)##;
     }
 
-    return unless defined wantarray; # don't bother doing more
-    return wantarray ? ($quote, $url, $link) : $quote_with_link;
+    return unless defined wantarray;    # don't bother doing more
+    return wantarray ? ( $quote, $url, $link ) : $quote_with_link;
 }
 
 #######################################
