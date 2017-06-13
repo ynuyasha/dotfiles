@@ -216,3 +216,8 @@ fi
 if [ -e ~/bin/myquote ]; then
     myquote -s
 fi
+
+# SSH hostnames completion (based on ~/.ssh/config)
+if [ -e ~/.ssh_bash_completion ]; then
+    source ~/.ssh_bash_completion
+fi
