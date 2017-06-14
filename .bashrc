@@ -213,8 +213,10 @@ if [ -e ~/bin/... ]; then
 fi
 
 # Print quote
-if [ -e ~/bin/myquote ]; then
+if [[ -e ~/bin/myquote && "`find /tmp/quote-printed -mmin +480`" ]]
+then
     myquote -s
+    touch /tmp/quote-printed
 fi
 
 # SSH hostnames completion (based on ~/.ssh/config)
