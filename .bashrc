@@ -212,11 +212,16 @@ if [ -e ~/bin/... ]; then
     ... upgrade
 fi
 
-# Print quote
-if [[ -e ~/bin/myquote && "`find /tmp/quote-printed -mmin +480`" ]]
-then
+# Print quote but not always
+qfile=/tmp/quote-printed
+interval=480
+if [ ! -e $qfile ]; then
+    touch $qfile
+    touch -r $qfile -d "-${interval} min" $qfile
+fi
+if [[ -e ~/bin/myquote && "`find $qfile -mmin +$interval`" ]]; then
     myquote -s
-    touch /tmp/quote-printed
+    touch $qfile
 fi
 
 # SSH hostnames completion (based on ~/.ssh/config)
