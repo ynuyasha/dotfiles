@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+
+import argparse
+
+if __name__ == '__main__':
+    choices = ['server', 'client']
+    parser = argparse.ArgumentParser(description='send and receive UDP locally')
+    parser.add_argument('role', choices=choices, help='which role to play')
+    parser.add_argument('-p', metavar='PORT', type=int, default=1060,
+                        help='UDP port (default 1060)')
+    args = parser.parse_args()
+
+    port_number = args.p
