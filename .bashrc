@@ -207,9 +207,16 @@ if [ -f ~/ansible/hacking/env-setup ]; then
     source ~/ansible/hacking/env-setup
 fi
 
-# Upgrade my dotfiles
-if [ -e ~/bin/... ]; then
-    ... upgrade
+# Upgrade my dotfiles but not always
+dfile=/tmp/dots-upgraded
+interval=480
+if [ ! -e $dfile ]; then
+    touch $dfile
+    touch -r $dfile -d "-${interval} min" $dfile
+fi
+if [[ -e ~/.../... && "`find $dfile -mmin +$interval`" ]]; then
+    ~/.../... supi
+    touch $dfile
 fi
 
 # Print quote but not always
