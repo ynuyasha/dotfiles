@@ -208,28 +208,10 @@ if [ -f ~/ansible/hacking/env-setup ]; then
 fi
 
 # Upgrade my dotfiles but not always
-dfile=/tmp/dots-upgraded
-interval=480
-if [ ! -e $dfile ]; then
-    touch $dfile
-    touch -r $dfile -d "-${interval} min" $dfile
-fi
-if [[ -e ~/.../... && "`find $dfile -mmin +$interval`" ]]; then
-    ~/.../... supi
-    touch $dfile
-fi
+runonce ~/.../... supi
 
 # Print quote but not always
-qfile=/tmp/quote-printed
-interval=480
-if [ ! -e $qfile ]; then
-    touch $qfile
-    touch -r $qfile -d "-${interval} min" $qfile
-fi
-if [[ -e ~/bin/myquote && "`find $qfile -mmin +$interval`" ]]; then
-    myquote -s
-    touch $qfile
-fi
+runonce myquote -s
 
 # SSH hostnames completion (based on ~/.ssh/config)
 if [ -e ~/.ssh_bash_completion ]; then
