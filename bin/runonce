@@ -41,7 +41,7 @@ if [[ "X" == "X$@" ]]; then
 fi
 
 lock="/tmp/lock-$(basename $@)"
-if [ ! -e $lock ]; then
+if [[ ! -e $lock ]]; then
     touch $lock
     touch -r $lock -d "-${interval} min" $lock
 fi
