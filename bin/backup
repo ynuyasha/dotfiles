@@ -11,13 +11,18 @@ defined $usb_mount_point or die "Usage: $0 USB_MOUNT_POINT\n";
 
 my $h = $ENV{HOME};
 
-my @files = ( 
+my @files = (
+    catfile( $h, 'Dropbox' ),
+    catfile( $h, 'data' ),
     catfile( $h, 'Desktop', 'data' ),
-    catfile( $h, '.ssh', 'config' ),
+    catfile( $h, '.ssh',    'config' ),
+    catfile( $h, 'git' ),
+    catfile( $h, 'github' ),
 );
 
 for my $f (@files) {
+    next unless -e $f;
     my @cmd = ( 'rsync', '-az', $f, $usb_mount_point );
-    print "@cmd ... ";
+    print '--> ', "@cmd ... ";
     say system(@cmd) ? "FAIL" : "OK";
 }
