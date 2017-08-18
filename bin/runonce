@@ -42,10 +42,11 @@ fi
 
 lock="/tmp/lock-$(basename $@)"
 if [[ ! -e $lock ]]; then
-    touch $lock
-    touch -r $lock -d "-${interval} min" $lock
-fi
-if [[ "`find $lock -mmin +$interval`" ]]; then
     "$@"
     touch $lock
+else # lock exists
+    if [[ "`find $lock -mmin +$interval`" ]]; then
+        "$@"
+        touch $lock
+    fi
 fi
