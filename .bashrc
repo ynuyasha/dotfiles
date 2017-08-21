@@ -211,7 +211,7 @@ fi
 runonce ~/.../... supi
 
 # Print quote but not always
-runonce myquote -s
+runonce myquote.py -s
 
 # SSH hostnames completion (based on ~/.ssh/config)
 if [ -e ~/.ssh_bash_completion ]; then
