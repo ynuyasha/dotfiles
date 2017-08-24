@@ -23,10 +23,11 @@ set ic  " ignore case during search
 " Problematic on cygwin.
 set ofu=syntaxcomplete#Complete
 
-" indenting
-set tabstop=4
-set shiftwidth=4
-set expandtab " spaces instead of tab (looks same in all editors)
+" Spaces instead of tabs (looks the same in all editors) ...
+set expandtab       " insert space(s) when tab key is pressed
+set tabstop=4       " number of spaces inserted
+set shiftwidth=4    " number of spaces for indentation
+" more: http://vim.wikia.com/wiki/Converting_tabs_to_spaces
 
 " highlight tabs and trailing spaces
 "set list!
