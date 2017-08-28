@@ -15,16 +15,27 @@ class MyQuote:
         self.quote = ''  # picked quotes
         self.url = \
          'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt'
-        self.cache = '/tmp/myquotes.data'
+        self.cache = os.path.expanduser('~/.myquotes.data')
+
+        # Create cache file if it does not exist
+        try:
+            file = open(self.cache, 'r')
+        except IOError:
+            file = open(self.cache, 'w')
 
     def get(self):
         """ Read quotes from a local file. If that is too old download them.
         """
         cache_age = os.path.getmtime(self.cache)
+        cache_size = os.path.getsize(self.cache)
+
         now = time.time()
-        day_ago = now - 60*68*24*1
-        if cache_age < day_ago: # cache older than a day
+        day_ago = now - 60*68*24*1 
+
+        # cache older than a day or empty
+        if cache_age < day_ago or cache_size == 0:
             self.download()
+
         f = open(self.cache, 'rb')
         self.quotes = pickle.load(f)
             
