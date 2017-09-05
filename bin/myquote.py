@@ -8,23 +8,18 @@ import re
 import pickle
 import os
 
-class MyQuote:
-
-    def __init__(self):
-        self.quotes = [] # all quotes
-        self.quote = ''  # picked quotes
-        self.url = \
-         'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt'
-        self.cache = os.path.expanduser('~/.myquotes.data')
-
-        # Create cache file if it does not exist
+class Cache:
+    def __init__(self, url, cache_file):
+        self.url = url
+        self.cache = cache_file
+        # Create cache file if it does not exist ...
         try:
             file = open(self.cache, 'r')
         except IOError:
             file = open(self.cache, 'w')
-
-    def get(self):
-        """ Read quotes from a local file. If that is too old download them.
+    def get_lines(self):
+        """ Return list of quotes from a local file. If that is too old 
+            download them from the Web.
         """
         cache_age = os.path.getmtime(self.cache)
         cache_size = os.path.getsize(self.cache)
@@ -34,19 +29,23 @@ class MyQuote:
 
         # cache older than a day or empty
         if cache_age < day_ago or cache_size == 0:
-            self.download()
+            self._download()
 
         f = open(self.cache, 'rb')
         self.quotes = pickle.load(f)
-            
-    def download(self):
-        """ Download quotes from the Internet.
+        return self.quotes
+    def _download(self):
+        """ Download quotes from the Web.
         """
         r = requests.get(self.url)
         quotes = ( r.text.split('\n\n') )
         f = open(self.cache, 'wb')
         pickle.dump(quotes, f)
 
+class MyQuote:
+    def __init__(self, quotes):
+        self.quotes = quotes    # all quotes
+        self.quote = ''         # picked quote(s)
     def pick(self, regex):
         """ Pick quotes matching a regex. Or a random quote.
         """
@@ -56,14 +55,12 @@ class MyQuote:
             self.quote = '\n\n'.join(quotes)
         else:
             self.quote = random.choice( self.quotes )
-
     def print_out(self, slow):
         if slow:
-            self.slow_print(self.quote)
+            self._slow_print(self.quote)
         else:
             print(self.quote)
-
-    def slow_print(self, quote):
+    def _slow_print(self, quote):
         for letter in quote:
             print(letter, end='', flush=True)
             time.sleep(.05)
@@ -77,8 +74,10 @@ if __name__ == '__main__':
                         regex (case insensitive)')
     args = parser.parse_args()
 
-    q = MyQuote()
-    q.get()
-    q.pick(args.r)
-    q.print_out(args.s)
+    url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt'
+    cache_file = os.path.expanduser('~/.myquotes.data')
 
+    cache = Cache(url, cache_file)
+    quotes = MyQuote(cache.get_lines())
+    quotes.pick(args.r)
+    quotes.print_out(args.s)
