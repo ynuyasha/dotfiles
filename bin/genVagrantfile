@@ -29,10 +29,10 @@ BLOCK
 }
 
 print <<ANSIBLE;
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = "ansible/site.yml"
-    #ansible.verbose = "vvv"
-  end
+  #config.vm.provision :ansible do |ansible|
+  #  ansible.playbook = "ansible/site.yml"
+  #  #ansible.verbose = "vvv"
+  #end
 end
 ANSIBLE
 
