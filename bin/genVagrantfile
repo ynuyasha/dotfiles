@@ -20,7 +20,8 @@ for my $host (@ARGV) {
       ${host}_config.vm.hostname = "${host}"
       ${host}_config.vm.network :private_network, ip: "$ipaddr"
       ${host}_config.vm.provider "virtualbox" do |vb|
-        vb.memory = "256"
+        vb.memory = 256
+        vb.cpus = 1
       end
   end
 
