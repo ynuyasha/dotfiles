@@ -15,5 +15,7 @@
     ignoreWhitespace: true
   "tabs-to-spaces":
     onSave: "untabify"
+  "vim-mode-plus":
+    ignoreCaseForSearch: true
   welcome:
     showOnStartup: false
