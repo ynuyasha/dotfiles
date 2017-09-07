@@ -3,6 +3,7 @@
     disabledPackages: [
       "spell-check"
     ]
+    restorePreviousWindowsOnStart: false
     telemetryConsent: "limited"
   editor:
     autoIndentOnPaste: true
