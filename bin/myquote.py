@@ -43,9 +43,16 @@ class Cache:
         pickle.dump(quotes, f)
 
 class MyQuote:
-    def __init__(self, quotes):
-        self.quotes = quotes    # all quotes
-        self.quote = ''         # picked quote(s)
+    def __init__(self, quotes, length):
+        # all quotes ...
+        self.quotes = []
+        if length: # drop quotes longer than length chars
+            self.quotes = list(filter(lambda q: len(q) <= int(length), quotes))
+        else:
+            self.quotes = quotes
+
+        # picked quote(s)
+        self.quote = ''
     def pick(self, regex):
         """ Pick quotes matching a regex. Or a random quote.
         """
@@ -72,12 +79,20 @@ if __name__ == '__main__':
     parser.add_argument('-s', action='store_true', help='print quote slowly')
     parser.add_argument('-r', metavar='regex', help='print quotes matching \
                         regex (case insensitive)')
+    parser.add_argument(
+        '-l',
+        metavar='length',
+        nargs='?', # 0 or 1 arguments
+        const=80,  # default when there are 0 argument
+        type=int,  # convert arg to int
+        help='print only quotes of defined length (default is 80 characters)'
+    )
     args = parser.parse_args()
 
     url = 'https://raw.githubusercontent.com/jreisinger/blog/master/posts/quotes.txt'
     cache_file = os.path.expanduser('~/.myquotes.data')
 
     cache = Cache(url, cache_file)
-    quotes = MyQuote(cache.get_lines())
+    quotes = MyQuote(cache.get_lines(), args.l)
     quotes.pick(args.r)
     quotes.print_out(args.s)
