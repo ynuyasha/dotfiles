@@ -7,6 +7,7 @@
     telemetryConsent: "limited"
   editor:
     autoIndentOnPaste: true
+    fontSize: 12
     normalizeIndentOnPaste: true
     showIndentGuide: true
     showInvisibles: true

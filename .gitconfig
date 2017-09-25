@@ -23,3 +23,5 @@
         minor = commit -a -m 'minor change'
 [push]
         default = matching
+[url "git@github.com:jreisinger/"]
+        insteadOf = jreisinger:
