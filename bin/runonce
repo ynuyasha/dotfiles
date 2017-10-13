@@ -4,7 +4,7 @@ help_and_exit() {
     cat << EOF
 ${0##*/} [options] COMMAND
 
-Run COMMAND but only once per interval.
+Run COMMAND but only once per interval. See '/tmp/lock-*' for lock files.
 
   options:
     -h, -?      help
