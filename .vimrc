@@ -1,5 +1,5 @@
 " activate pathogen.vim
-"call pathogen#infect()
+call pathogen#infect()
 
 " NERDTree
 nnoremap <F4> :NERDTreeToggle<CR>
