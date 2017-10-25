@@ -82,7 +82,7 @@ find( $gather, @dirs );
 my @files = $yield->();
 
 # Print the results
-for my $file (@files) {
+for my $file ( sort { ( stat $a )[9] <=> ( stat $b )[9] } @files ) {
     my $mtime = ( stat $file )[9];    # mtime via slice
     my $when  = localtime $mtime;
     print "$when: $file\n";
