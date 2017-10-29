@@ -34,7 +34,7 @@ sub _get_web {
     if ( can_run('wget') ) {
         system "wget -q -O $local $remote" and die;
     } else {
-        system "curl -so $local $remote" and die;
+        system "curl -Ls -o $local $remote" and die;
     }
 }
 
