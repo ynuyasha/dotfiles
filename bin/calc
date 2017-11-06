@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 
+use File::Basename;
+
 our $h;
 
 msg_and_exit( "Simple eval based calculator", 0 ) if $h;
@@ -9,6 +11,9 @@ msg_and_exit( "", 1 ) unless @ARGV == 3;
 
 my ( $x, $op, $y ) = @ARGV;
 my $res = eval "$x $op $y";
+
+msg_and_exit( "Does not compute", 1 ) unless $res;
+
 printf "%s %s %s = %.2f\n", $x, $op, $y, $res;
 
 sub msg_and_exit {
@@ -17,9 +22,11 @@ sub msg_and_exit {
 
     print "$msg\n" if $msg;
 
+    my $prog = basename($0);
+
     print <<"EOF";
-Usage:   $0 <operand1> <operator> <operand2>
-Example: $0 1 '**' 2
+Usage:   $prog <operand1> <operator> <operand2>
+Example: $prog 1 '**' 2
 EOF
 
     exit($ec);
