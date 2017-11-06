@@ -7,7 +7,7 @@ our $h;
 msg_and_exit( "Simple eval based calculator", 0 ) if $h;
 msg_and_exit( "", 1 ) unless @ARGV == 3;
 
-my ( $x, $y, $op ) = @ARGV;
+my ( $x, $op, $y ) = @ARGV;
 my $res = eval "$x $op $y";
 printf "%s %s %s = %.2f\n", $x, $op, $y, $res;
 
@@ -18,8 +18,8 @@ sub msg_and_exit {
     print "$msg\n" if $msg;
 
     print <<"EOF";
-Usage:   $0 <operand1> <operand2> <operator>
-Example: $0 1 2 +
+Usage:   $0 <operand1> <operator> <operand2>
+Example: $0 1 '**' 2
 EOF
 
     exit($ec);
