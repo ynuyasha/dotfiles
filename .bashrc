@@ -217,3 +217,5 @@ runonce myquote.py -s
 if [ -e ~/.ssh_bash_completion ]; then
     source ~/.ssh_bash_completion
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

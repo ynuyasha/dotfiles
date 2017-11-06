@@ -5,6 +5,10 @@
     ]
     restorePreviousWindowsOnStart: false
     telemetryConsent: "limited"
+    themes: [
+      "atom-dark-ui"
+      "atom-dark-syntax"
+    ]
   editor:
     autoIndentOnPaste: true
     fontSize: 12
