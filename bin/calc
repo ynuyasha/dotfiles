@@ -2,15 +2,17 @@
 use strict;
 use warnings;
 
+# Help...
 our ($h);
 if ($h) {
-    print "Simple Perl eval based calculator\n";
+    print "Simple calculator based on Perl's eval\n";
     exit 0;
 }
 
 # Allowed input characters regex...
 my $allowed = '\d\+\-\/\*';
 
+# Transform input a bit...
 my $expr = "@ARGV";
 $expr =~ s/\s+//g;             # allow whitespace in input numbers
 $expr =~ s/x/*/gi;             # allow x instead of * in input
