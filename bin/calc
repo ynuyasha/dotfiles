@@ -1,4 +1,4 @@
-#!/usr/bin/perl -s
+#!/usr/bin/perl -sT
 use strict;
 use warnings;
 
@@ -10,13 +10,13 @@ if ($h) {
 }
 
 # Allowed input characters regex...
-my $allowed = '\d\+\-\/\*';
+my $allowed = qr'\d\+\-\/\*';
 
 # Transform input a bit...
+@ARGV = ( "@ARGV" =~ /[$allowed]/g );    # un-taint
 my $expr = "@ARGV";
-$expr =~ s/\s+//g;             # allow whitespace in input numbers
-$expr =~ s/x/*/gi;             # allow x instead of * in input
-$expr =~ s/[^$allowed]//gi;    # remove any non-allowed chars
+$expr =~ s/\s+//g;                       # allow whitespace in input numbers
+$expr =~ s/x/*/gi;                       # allow x instead of * in input
 
 # Do the calculation...
 my $res = eval "$expr";
