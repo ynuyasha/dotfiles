@@ -200,6 +200,14 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+# add compiled perl6 to PATH
+if [ -d "/opt/rakudo-star-2017.10/bin" ]; then
+    PATH="/opt/rakudo-star-2017.10/bin:$PATH"
+fi
+if [ -d "/opt/rakudo-star-2017.10/share/perl6/site/bin" ]; then
+    PATH="/opt/rakudo-star-2017.10/share/perl6/site/bin:$PATH"
+fi
+
 export VAGRANT_DETECTED_OS="$(uname)"
 
 # In case we use Ansible from checkout (development version)
