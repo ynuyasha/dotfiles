@@ -7,6 +7,8 @@ import time
 import re
 import pickle
 import os
+import signal
+import sys
 
 class Cache:
     def __init__(self, url, cache_file):
@@ -73,7 +75,15 @@ class MyQuote:
             time.sleep(.05)
         print()
 
+def signal_handler(signal, frame):
+    print(' --> In a hurry, huh? :-) Exiting...')
+    sys.exit(0)
+
 if __name__ == '__main__':
+
+    # Handle Ctrl+C (INT signal)...
+    signal.signal(signal.SIGINT, signal_handler)
+
     parser = argparse.ArgumentParser(description='Print a quote from my \
                                      collection of quotes.')
     parser.add_argument('-s', action='store_true', help='print quote slowly')
