@@ -75,7 +75,7 @@ class MyQuote:
         for letter in quote:
             if letter == "-" and prev == "-": in_quote = False
             if in_quote:
-                time.sleep(.05)
+                time.sleep(.09)
                 print(letter, end='', flush=True)
             else:
                 print(letter, end='', flush=True)
