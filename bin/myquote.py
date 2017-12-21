@@ -70,9 +70,16 @@ class MyQuote:
         else:
             print(self.quote)
     def _slow_print(self, quote):
+        in_quote = True
+        prev = "" # previous letter
         for letter in quote:
-            print(letter, end='', flush=True)
-            time.sleep(.05)
+            if letter == "-" and prev == "-": in_quote = False
+            if in_quote:
+                time.sleep(.05)
+                print(letter, end='', flush=True)
+            else:
+                print(letter, end='', flush=True)
+            prev = letter
         print()
 
 def signal_handler(signal, frame):
