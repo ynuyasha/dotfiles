@@ -102,7 +102,7 @@ if __name__ == '__main__':
         nargs='?', # 0 or 1 arguments
         const=80,  # default when there are 0 argument
         type=int,  # convert arg to int
-        help='print only quotes of defined length (default is 80 characters)'
+        help='print quotes no longer than length (default is 80 characters)'
     )
     args = parser.parse_args()
 
