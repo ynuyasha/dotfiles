@@ -63,7 +63,10 @@ class MyQuote:
             quotes = filter( lambda q: re.search(regex_i, q), self.quotes )
             self.quote = '\n\n'.join(quotes)
         else:
-            self.quote = random.choice( self.quotes )
+            try:
+                self.quote = random.choice( self.quotes )
+            except IndexError: # empty self.quotes
+                self.quote = ''
     def print_out(self, slow):
         if slow:
             self._slow_print(self.quote)
