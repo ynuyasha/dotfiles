@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-cat $(which $1)
+fullpath=$(which $1)
+[ ! -z "$fullpath" ] && cat $fullpath
