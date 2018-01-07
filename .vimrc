@@ -53,7 +53,7 @@ set laststatus=2
 
 set textwidth=79
 set nu          " show line numbers
-set relativenumber
+"set relativenumber
 colors delek    " colorscheme
 set showmatch   " show matching brackets
 
