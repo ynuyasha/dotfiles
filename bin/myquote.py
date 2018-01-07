@@ -83,7 +83,7 @@ class MyQuote:
         print()
 
 def signal_handler(signal, frame):
-    print(' --> In a hurry, huh? :-) Exiting...')
+    print('[Exiting...]')
     sys.exit(0)
 
 if __name__ == '__main__':
