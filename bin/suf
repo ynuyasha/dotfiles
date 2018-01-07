@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 #
-# Usage: suf FILENAME [suffix]
+# Usage: suf FILENAME [newsuffix]
 #
 # Print FILENAME with new suffix. If FILENAME ends with a suffix, the suffix is
-# replaced with the given suffix otherwise, the given suffix is appended.
+# replaced with the new suffix otherwise, the new suffix is appended.
 #
 # For example:
 #   suf foo.bar baz     => foo.baz
@@ -32,5 +32,5 @@ if ( defined $suf ) {
 }
 
 sub usage {
-    die "Usage: suf FILENAME [suffix]\n";
+    die "Usage: suf FILENAME [newsuffix]\n";
 }
