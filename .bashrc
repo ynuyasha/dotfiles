@@ -217,9 +217,10 @@ fi
 
 # Upgrade my dotfiles but not always
 runonce ~/.../... supi
+runonce install_vim_stuff
 
 # Print quote but not always
-runonce myquote.py -s
+runonce myquote -s
 
 # SSH hostnames completion (based on ~/.ssh/config)
 if [ -e ~/.ssh_bash_completion ]; then
