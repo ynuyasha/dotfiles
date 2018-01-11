@@ -4,7 +4,7 @@ help_and_exit() {
     cat << EOF
 ${0##*/} [options] COMMAND
 
-Run COMMAND but only once per interval. See '/tmp/lock-*' for lock files.
+Run COMMAND but only once per interval. See '$HOME/.runonce-*' for lock files.
 
   options:
     -h, -?      help
@@ -40,7 +40,7 @@ if [[ "X" == "X$@" ]]; then
     help_and_exit 1
 fi
 
-lock="/tmp/lock-$(basename $@)"
+lock="$HOME/.runonce-$(basename $@)"
 if [[ ! -e $lock ]]; then
     "$@"
     touch $lock
