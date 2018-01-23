@@ -4,6 +4,11 @@ import cmd
 
 class WTF(cmd.Cmd):
 
+    def do_basic_tools(self, line):
+        """ (Ubuntu) package names containing basic tools.
+        """
+        print("apt-get update && apt-get install procps net-tools")
+
     def do_date_fmt(self, line):
         """
         A reference for most commonly requested bash timestamps
