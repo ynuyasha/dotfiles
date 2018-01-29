@@ -1,0 +1,16 @@
+#!/usr/bin/env perl
+#
+# Script that commits git changes with a nice message. It gets called from an
+# alias within ~/.gitconfig
+#
+
+my @files;
+for (`git status --porcelain`) {
+    push @files, (split)[1];
+}
+
+my $word = @files > 1 ? "files" : "file";
+
+my $cmd = "git commit -am 'update $word " . join(", ", @files) . "'";
+#print("[$cmd]");
+system $cmd;
