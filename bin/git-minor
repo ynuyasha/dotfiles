@@ -11,6 +11,6 @@ for (`git status --porcelain`) {
 
 my $word = @files > 1 ? "files" : "file";
 
-my $cmd = "git commit -am 'update/add $word " . join(", ", @files) . "'";
+my $cmd = "git commit -am 'update $word " . join(", ", @files) . "'";
 #print("[$cmd]");
 system $cmd;
